@@ -1,5 +1,5 @@
 from PyQt6 import QtWidgets
-from PyQt6.QtCore import Qt
+from PyQt6.QtCore import *
 from PyQt6.QtWidgets import *
 from PyQt6.QtGui import * 
 
@@ -8,6 +8,15 @@ import sys
 WINHEIGHT = 400
 WINWIDTH = 800
 
+class DragButton(QPushButton):
+
+    def mouseMoveEvent(self, e):
+
+        if e.buttons() == Qt.LeftButton:
+            drag = QDrag(self)
+            mime = QMimeData()
+            drag.setMimeData(mime)
+            drag.exec_(Qt.MoveAction)
 
 class MyWindow(QWidget) :    
     def __init__(self, *args, **kwargs):
@@ -15,7 +24,8 @@ class MyWindow(QWidget) :
         self.setGeometry(50, 200, WINWIDTH, WINHEIGHT)
         self.setWindowTitle("Set Solver")
         self.initUI()
-
+        self.setAcceptDrops(True)
+    
 
     def initUI(self):
         grid = QGridLayout()
@@ -33,8 +43,16 @@ class MyWindow(QWidget) :
         pixmap2 = QPixmap("settest01.png")
         image2.setPixmap(pixmap2)
         grid.addWidget(image2, 0, 5)
-        
 
+        button1 = DragButton("A")
+        grid.addWidget(button1)
+
+        button2 = DragButton("B")
+        grid.addWidget(button2)
+        
+    def dragEnterEvent(self, e):
+        e.accept()
+        
     def button1Clicked(self):
         self.label.setText("hellllll wat")
         self.update()
