@@ -25,12 +25,12 @@ class MyWindow(QWidget) :
         grid.addWidget(QLabel("nee"), 1, 1)
 
         image1 = QLabel(self)
-        pixmap = QPixmap("settest01.png")
+        pixmap = QPixmap("SetCards/RED1.png")
         image1.setPixmap(pixmap)
         grid.addWidget(image1, 0, 1)
 
         image2 = QLabel(self)
-        pixmap2 = QPixmap("settest01.png")
+        pixmap2 = QPixmap("SetCards/RED2.png")
         image2.setPixmap(pixmap2)
         grid.addWidget(image2, 0, 5)
         
