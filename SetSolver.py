@@ -3,6 +3,8 @@ from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import *
 from PyQt6.QtGui import *
 
+from enum import Enum
+
 import sys
 
 WINHEIGHT = 400
@@ -12,18 +14,19 @@ WINWIDTH = 800
 # Each card has a colour, shape, shading and number
 Attributes = Enum('Attributes', ['col', 'shape', 'shade', 'num'])
 
-Colour = Enum('Colour', ['RED', 'GREEN', 'PURPLE'])
+Color = Enum('Color', ['RED', 'GREEN', 'PURPLE'])
 Shape = Enum('Shape', ['WAVE', 'DIAMOND', 'OVAL'])
 Shading = Enum('Shading', ['EMPTY', 'LINED', 'FULL'])
-Number = Enum('Number', ['ONE', 'TWO', 'THREE'])
+#Number = Enum('Number', ['ONE', 'TWO', 'THREE'])
 
 # card.attributes[col, shape, shade, num]
 
 class Card:
-    def __init__(Colour col, Shape shape, Shading shade, Number num) :
+    def __init__(col, shape, shade, num) :
         self.attributes = [col, shape, shade, num]
 
-    def is_set (self, Card one, Card two) :
+    # Three cards are a set unless some attribute is different in one card and equal in the two others.
+    def is_set (self, one, two) :
         for i in Attributes :
             if self.attributes[i] != one.attributes[i]
                 if self.attributes[i] == two.attributes[i] || one.attributes[i] == two.attributes[i]
