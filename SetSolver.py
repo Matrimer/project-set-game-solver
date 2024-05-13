@@ -1,15 +1,39 @@
 from PyQt6 import QtWidgets
 from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import *
-from PyQt6.QtGui import * 
+from PyQt6.QtGui import *
 
 import sys
 
 WINHEIGHT = 400
 WINWIDTH = 800
 
+## CARDS:
+# Each card has a colour, shape, shading and number
+Attributes = Enum('Attributes', ['col', 'shape', 'shade', 'num'])
 
-class MyWindow(QWidget) :    
+Colour = Enum('Colour', ['RED', 'GREEN', 'PURPLE'])
+Shape = Enum('Shape', ['WAVE', 'DIAMOND', 'OVAL'])
+Shading = Enum('Shading', ['EMPTY', 'LINED', 'FULL'])
+Number = Enum('Number', ['ONE', 'TWO', 'THREE'])
+
+# card.attributes[col, shape, shade, num]
+
+class Card:
+    def __init__(Colour col, Shape shape, Shading shade, Number num) :
+        self.attributes = [col, shape, shade, num]
+
+    def is_set (self, Card one, Card two) :
+        for i in Attributes :
+            if self.attributes[i] != one.attributes[i]
+                if self.attributes[i] == two.attributes[i] || one.attributes[i] == two.attributes[i]
+                    return False
+            else if self.attributes[i] != two.attributes[i]
+                return False
+        return True
+
+
+class MyWindow(QWidget) :
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.setGeometry(50, 200, WINWIDTH, WINHEIGHT)
@@ -33,16 +57,16 @@ class MyWindow(QWidget) :
         pixmap2 = QPixmap("SetCards/RED2.png")
         image2.setPixmap(pixmap2)
         grid.addWidget(image2, 0, 5)
-        
+
 
     def button1Clicked(self):
         self.label.setText("hellllll wat")
         self.update()
-    
+
     def update(self):
         self.label.adjustSize()
 
-    
+
 
 def window():
     app = QApplication(sys.argv)
