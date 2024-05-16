@@ -2,6 +2,7 @@ from PyQt6 import QtWidgets
 from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import *
 from PyQt6.QtGui import * 
+import random
 
 import sys
 
@@ -20,21 +21,23 @@ class MyWindow(QWidget) :
     def initUI(self):
         grid = QGridLayout()
         self.setLayout(grid)
-        grid.addWidget(QLabel("ello"), 0, 0)
+        # makes a 3 by 4 grid with random red cards
+        for i in range(3):
+            for j in range(4):
+                self.addImage(grid,f"SetCards/R{random.choice(["E","F","L"])}{random.choice(["D","W","O"])}{random.choice(["1","2","3"])}.png",i,j)
 
-        grid.addWidget(QLabel("nee"), 1, 1)
+        # grid.addWidget(QLabel("ello"), 0, 0)
 
-        image1 = QLabel(self)
-        pixmap = QPixmap("SetCards/RED1.png")
-        image1.setPixmap(pixmap)
-        grid.addWidget(image1, 0, 1)
+        # grid.addWidget(QLabel("nee"), 1, 1)
 
-        image2 = QLabel(self)
-        pixmap2 = QPixmap("SetCards/RED2.png")
-        image2.setPixmap(pixmap2)
-        grid.addWidget(image2, 0, 5)
         
-
+        
+    def addImage(self, grid, filelocation,x,y):
+        image = QLabel(self)
+        pixmap = QPixmap(filelocation)
+        image.setPixmap(pixmap)
+        grid.addWidget(image, x, y)
+    
     def button1Clicked(self):
         self.label.setText("hellllll wat")
         self.update()
