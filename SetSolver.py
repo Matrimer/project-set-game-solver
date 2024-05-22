@@ -14,6 +14,7 @@ class MyWindow(QWidget) :
         super().__init__(*args, **kwargs)
         self.setGeometry(50, 200, WINWIDTH, WINHEIGHT)
         self.setWindowTitle("Set Solver")
+        self.setWindowIcon(QIcon("SetCards/RFW3.png"))
         self.initUI()
 
 
