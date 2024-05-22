@@ -22,16 +22,16 @@ Shading = Enum('Shading', ['EMPTY', 'LINED', 'FULL'])
 # card.attributes[col, shape, shade, num]
 
 class Card:
-    def __init__(col, shape, shade, num) :
+    def __init__(self, col, shape, shade, num) :
         self.attributes = [col, shape, shade, num]
 
     # Three cards are a set unless some attribute is different in one card and equal in the two others.
     def is_set (self, one, two) :
         for i in Attributes :
-            if self.attributes[i] != one.attributes[i]
-                if self.attributes[i] == two.attributes[i] || one.attributes[i] == two.attributes[i]
+            if self.attributes[i] != one.attributes[i] :
+                if self.attributes[i] == two.attributes[i] or one.attributes[i] == two.attributes[i] :
                     return False
-            else if self.attributes[i] != two.attributes[i]
+            elif self.attributes[i] != two.attributes[i] :
                 return False
         return True
 
