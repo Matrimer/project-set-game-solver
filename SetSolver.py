@@ -128,6 +128,7 @@ class MyWindow(QWidget) :
     # def update(self):
     #     self.label.adjustSize()
 
+
     
 
 def window():
