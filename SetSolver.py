@@ -1,5 +1,5 @@
 from PyQt6 import QtWidgets
-from PyQt6.QtCore import Qt,QPoint
+from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import *
 from PyQt6.QtGui import * 
 import random
@@ -22,18 +22,46 @@ class Card():
         self.filling = filling
         self.amount = amount
         self.location = location
+
+    def __eq__(self, other):
+        if isinstance(other, self.__class__):
+            return (self.color == otherCard.color and
+            self.shape == otherCard.shape and
+            self.filling == otherCard.filling and
+            self.amount == otherCard.amount)
+            self.__dict__ == other.__dict__
+        else:
+            return False
+        # if:
+        #     return True
+        # return False
+
+
+
 class SetSolver():
     cardList = []
     foundSets = []
     def __init__(self):
         pass
+    
+#go through the card list and see if newCard is a duplicate of any card in the card list
+    def noDuplicates(self, newCard):
+        for card in enumerate(self.cardList):
+            if(newCard==card):
+                return False
+        return True
+
+
     def addCardAndSolve(self,newCard):
-        # Checks for sets with the new card and the cardlist then adds the card to the list
-        for i,firstCard in enumerate(self.cardList):
-            for secondCard in self.cardList[i+1:]:
-                if self.isSet(firstCard,secondCard,newCard):
-                    self.foundSets.append([newCard.location,firstCard.location,secondCard.location])
-        self.cardList.append(newCard)
+        
+        if(self.noDuplicates(newCard)):
+            # Checks for sets with the new card and the cardlist then adds the card to the list
+            for i,firstCard in enumerate(self.cardList):
+                for secondCard in self.cardList[i+1:]:
+
+                    if self.isSet(firstCard,secondCard,newCard):
+                        self.foundSets.append([newCard.location,firstCard.location,secondCard.location])
+            self.cardList.append(newCard)
 
     def isSet(self,one, two, three):
         # Loops over the fields/atributes of one whitch is an instance of a card
@@ -56,34 +84,7 @@ class MyWindow(QWidget) :
         self.setWindowIcon(QIcon("SetCards/RFW3.png"))
         self.initUI()
 
-    def paintEvent(self, event):
-        # Ensure QPainter is only used within paintEvent
-        painter = QPainter(self)
-        # Check if the QPainter is active
-        if painter.isActive():
-            # Create a QPen object to define the line style
-            pen = QPen()
-            pen.setWidth(5)  # Set the line width
-            pen.setColor(Qt.GlobalColor.blue)  # Set the line color
-            painter.setPen(pen)
-            
-            # Draw a line from point (50, 50) to point (200, 200)
-            painter.drawLine(self.line_start[0], self.line_start[1], self.line_end[0], self.line_end[1])
-            
-            # You can draw more lines or shapes here if needed
-        
-        # End the QPainter explicitly (optional, as it will be done automatically when painter is deleted)
-        painter.end()
 
-    def draw_line(self,x1,y1,x2,y2):
-        # Store the coordinates of the line
-        self.line_start = (x1, y1)
-        self.line_end = (x2, y2)
-        
-        # Trigger a repaint
-        self.update()
-
- 
     def initUI(self):
         grid = QGridLayout()
         self.setLayout(grid)
@@ -99,10 +100,7 @@ class MyWindow(QWidget) :
         #Todo change name from set to something better because name set is python name
         for set in solver.foundSets:
             print(f"{set[0]} and {set[1]} and {set[2]}")
-            self.draw_line(int(set[0].x*self.size().width()/4)
-                           ,int(set[0].y*self.size().height()/4)
-                           ,int(set[1].x*self.size().width()/4)
-                           ,int(set[1].y*self.size().height()/4))
+
         
     def showCard(self,card,grid):
         # Adds the card to the UI based on a card object
@@ -125,9 +123,8 @@ class MyWindow(QWidget) :
         self.label.setText("hellllll wat")
         self.update()
     
-    # def update(self):
-    #     self.label.adjustSize()
-
+    def update(self):
+        self.label.adjustSize()
 
     
 
