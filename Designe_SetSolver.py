@@ -27,6 +27,7 @@ class Ui_MainWindow(object):
         self.gridLayout = QtWidgets.QGridLayout(self.gridLayoutWidget)
         self.gridLayout.setContentsMargins(0, 0, 0, 0)
         self.gridLayout.setObjectName("gridLayout")
+
         self.graphicsView_2 = QtWidgets.QGraphicsView(self.gridLayoutWidget)
         self.graphicsView_2.setObjectName("graphicsView_2")
         self.gridLayout.addWidget(self.graphicsView_2, 4, 0, 1, 1)
@@ -64,6 +65,9 @@ class Ui_MainWindow(object):
         self.graphicsView_11 = QtWidgets.QGraphicsView(self.gridLayoutWidget)
         self.graphicsView_11.setObjectName("graphicsView_11")
         self.gridLayout.addWidget(self.graphicsView_11, 3, 2, 1, 1)
+
+#### RIGHT SIDE BEGINS HERE.
+
         self.gridLayoutWidget_3 = QtWidgets.QWidget(self.centralwidget)
         self.gridLayoutWidget_3.setGeometry(QtCore.QRect(450, 10, 341, 231))
         self.gridLayoutWidget_3.setObjectName("gridLayoutWidget_3")
