@@ -1,7 +1,7 @@
 from PyQt6 import QtWidgets
 from PyQt6.QtCore import Qt,QPoint
 from PyQt6.QtWidgets import *
-from PyQt6.QtGui import * 
+from PyQt6.QtGui import *
 import random
 
 import sys
@@ -45,10 +45,10 @@ class SetSolver():
                     return False
             elif getattr(one, attribute) != getattr(three, attribute):
                 return False
-        return True 
+        return True
 
 
-class MyWindow(QWidget) :    
+class MyWindow(QWidget) :
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.setGeometry(50, 200, WINWIDTH, WINHEIGHT)
@@ -66,12 +66,12 @@ class MyWindow(QWidget) :
             pen.setWidth(5)  # Set the line width
             pen.setColor(Qt.GlobalColor.blue)  # Set the line color
             painter.setPen(pen)
-            
+
             # Draw a line from point (50, 50) to point (200, 200)
             painter.drawLine(self.line_start[0], self.line_start[1], self.line_end[0], self.line_end[1])
-            
+
             # You can draw more lines or shapes here if needed
-        
+
         # End the QPainter explicitly (optional, as it will be done automatically when painter is deleted)
         painter.end()
 
@@ -79,11 +79,11 @@ class MyWindow(QWidget) :
         # Store the coordinates of the line
         self.line_start = (x1, y1)
         self.line_end = (x2, y2)
-        
+
         # Trigger a repaint
         self.update()
 
- 
+
     def initUI(self):
         grid = QGridLayout()
         self.setLayout(grid)
@@ -103,7 +103,7 @@ class MyWindow(QWidget) :
                            ,int(set[0].y*self.size().height()/4)
                            ,int(set[1].x*self.size().width()/4)
                            ,int(set[1].y*self.size().height()/4))
-        
+
     def showCard(self,card,grid):
         # Adds the card to the UI based on a card object
         self.addImage(grid,f"SetCards/R{card.filling}{card.shape}{card.amount}.png",card.location.x,card.location.y,QColor(card.color))
@@ -119,17 +119,17 @@ class MyWindow(QWidget) :
         label = QLabel(self)
         label.setPixmap(pixmap)
         grid.addWidget(label, x, y)
-    
+
     def button1Clicked(self):
         # Unused function?
         self.label.setText("hellllll wat")
         self.update()
-    
+
     # def update(self):
     #     self.label.adjustSize()
 
 
-    
+
 
 def window():
     app = QApplication(sys.argv)
