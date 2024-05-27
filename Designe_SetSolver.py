@@ -28,6 +28,10 @@ class Ui_MainWindow(object):
         self.gridLayout.setContentsMargins(0, 0, 0, 0)
         self.gridLayout.setObjectName("gridLayout")
 
+        self.graphicsView_1 = QtWidgets.QGraphicsView(self.gridLayoutWidget)
+        self.graphicsView_1.setObjectName("graphicsView_1")
+        self.gridLayout.addWidget(self.graphicsView_1, 4, 2, 1, 1)
+
         self.graphicsView_2 = QtWidgets.QGraphicsView(self.gridLayoutWidget)
         self.graphicsView_2.setObjectName("graphicsView_2")
         self.gridLayout.addWidget(self.graphicsView_2, 4, 0, 1, 1)
@@ -67,10 +71,6 @@ class Ui_MainWindow(object):
         self.graphicsView_11 = QtWidgets.QGraphicsView(self.gridLayoutWidget)
         self.graphicsView_11.setObjectName("graphicsView_11")
         self.gridLayout.addWidget(self.graphicsView_11, 3, 2, 1, 1)
-
-        self.graphicsView_12 = QtWidgets.QGraphicsView(self.gridLayoutWidget)
-        self.graphicsView_12.setObjectName("graphicsView_12")
-        self.gridLayout.addWidget(self.graphicsView_12, 4, 2, 1, 1)
 
         self.graphicsView = QtWidgets.QGraphicsView(self.gridLayoutWidget)
         self.graphicsView.setAutoFillBackground(True)
