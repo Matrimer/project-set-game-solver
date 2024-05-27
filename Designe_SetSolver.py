@@ -19,6 +19,7 @@ class Ui_MainWindow(object):
         font.setFamily("Small Fonts")
         MainWindow.setFont(font)
         MainWindow.setWindowFilePath("")
+
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.gridLayoutWidget = QtWidgets.QWidget(self.centralwidget)
@@ -27,43 +28,25 @@ class Ui_MainWindow(object):
         self.gridLayout = QtWidgets.QGridLayout(self.gridLayoutWidget)
         self.gridLayout.setContentsMargins(0, 0, 0, 0)
         self.gridLayout.setObjectName("gridLayout")
-        self.graphicsView_2 = QtWidgets.QGraphicsView(self.gridLayoutWidget)
-        self.graphicsView_2.setObjectName("graphicsView_2")
-        self.gridLayout.addWidget(self.graphicsView_2, 4, 0, 1, 1)
-        self.graphicsView_3 = QtWidgets.QGraphicsView(self.gridLayoutWidget)
-        self.graphicsView_3.setObjectName("graphicsView_3")
-        self.gridLayout.addWidget(self.graphicsView_3, 2, 0, 1, 1)
-        self.graphicsView_7 = QtWidgets.QGraphicsView(self.gridLayoutWidget)
-        self.graphicsView_7.setObjectName("graphicsView_7")
-        self.gridLayout.addWidget(self.graphicsView_7, 2, 1, 1, 1)
-        self.graphicsView_4 = QtWidgets.QGraphicsView(self.gridLayoutWidget)
-        self.graphicsView_4.setObjectName("graphicsView_4")
-        self.gridLayout.addWidget(self.graphicsView_4, 3, 0, 1, 1)
-        self.graphicsView_5 = QtWidgets.QGraphicsView(self.gridLayoutWidget)
-        self.graphicsView_5.setObjectName("graphicsView_5")
-        self.gridLayout.addWidget(self.graphicsView_5, 4, 1, 1, 1)
-        self.graphicsView_6 = QtWidgets.QGraphicsView(self.gridLayoutWidget)
-        self.graphicsView_6.setObjectName("graphicsView_6")
-        self.gridLayout.addWidget(self.graphicsView_6, 3, 1, 1, 1)
-        self.graphicsView_10 = QtWidgets.QGraphicsView(self.gridLayoutWidget)
-        self.graphicsView_10.setObjectName("graphicsView_10")
-        self.gridLayout.addWidget(self.graphicsView_10, 2, 2, 1, 1)
-        self.graphicsView_9 = QtWidgets.QGraphicsView(self.gridLayoutWidget)
-        self.graphicsView_9.setObjectName("graphicsView_9")
-        self.gridLayout.addWidget(self.graphicsView_9, 0, 2, 1, 1)
-        self.graphicsView_8 = QtWidgets.QGraphicsView(self.gridLayoutWidget)
-        self.graphicsView_8.setObjectName("graphicsView_8")
-        self.gridLayout.addWidget(self.graphicsView_8, 0, 1, 1, 1)
-        self.graphicsView_12 = QtWidgets.QGraphicsView(self.gridLayoutWidget)
-        self.graphicsView_12.setObjectName("graphicsView_12")
-        self.gridLayout.addWidget(self.graphicsView_12, 4, 2, 1, 1)
-        self.graphicsView = QtWidgets.QGraphicsView(self.gridLayoutWidget)
-        self.graphicsView.setAutoFillBackground(True)
-        self.graphicsView.setObjectName("graphicsView")
-        self.gridLayout.addWidget(self.graphicsView, 0, 0, 1, 1)
-        self.graphicsView_11 = QtWidgets.QGraphicsView(self.gridLayoutWidget)
-        self.graphicsView_11.setObjectName("graphicsView_11")
-        self.gridLayout.addWidget(self.graphicsView_11, 3, 2, 1, 1)
+
+        def newGridBox(i, x, y) :
+            self.graphicsView = QtWidgets.QGraphicsView(self.gridLayoutWidget)
+            self.graphicsView.setObjectName("graphicsView" + str(i))
+            self.graphicsView.setAutoFillBackground(True)
+            self.gridLayout.addWidget(self.graphicsView, y, x, 1, 1)
+
+        # Create gridBoxes
+        i = 0
+        for y in range (0,4) :
+            if y > 0 :
+                y = y + 1
+
+            for x in range(0,3) :
+                newGridBox(i, x, y)
+                i = i + 1
+
+#### RIGHT SIDE BEGINS HERE.
+
         self.gridLayoutWidget_3 = QtWidgets.QWidget(self.centralwidget)
         self.gridLayoutWidget_3.setGeometry(QtCore.QRect(450, 10, 341, 231))
         self.gridLayoutWidget_3.setObjectName("gridLayoutWidget_3")
