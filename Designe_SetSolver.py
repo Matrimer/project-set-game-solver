@@ -31,7 +31,7 @@ class Ui_MainWindow(object):
 
         def newGridBox(i, x, y) :
             self.graphicsView = QtWidgets.QGraphicsView(self.gridLayoutWidget)
-            self.graphicsView.setObjectName("graphicsView_" + str(i))
+            self.graphicsView.setObjectName("graphicsView" + str(i))
             self.graphicsView.setAutoFillBackground(True)
             self.gridLayout.addWidget(self.graphicsView, y, x, 1, 1)
 
