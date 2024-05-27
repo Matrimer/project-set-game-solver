@@ -71,25 +71,24 @@ class Ui_MainWindow(object):
         self.label_8.setObjectName("label_8")
         self.horizontalLayout_3.addWidget(self.label_8)
 
-        self.radioButton_Wave = QtWidgets.QRadioButton(self.horizontalLayoutWidget_3)
-        self.radioButton_Wave.setChecked(True)
-        self.radioButton_Wave.setAutoExclusive(True)
-        self.radioButton_Wave.setObjectName("radioButton_Wave")
-        self.radioButton_Wave.setText("Wave")
-        self.horizontalLayout_3.addWidget(self.radioButton_Wave)
+        def newRadioButton(name) :
+            self.radioButton = QtWidgets.QRadioButton(self.horizontalLayoutWidget_3)
+            self.radioButton.setChecked(True)
+            self.radioButton.setAutoExclusive(True)
+            self.radioButton.setObjectName("radioButton_" + name)
+            self.radioButton.setText(name)
+            self.horizontalLayout_3.addWidget(self.radioButton)
 
-        self.radioButton_Oval = QtWidgets.QRadioButton(self.horizontalLayoutWidget_3)
-        self.radioButton_Oval.setChecked(False)
-        self.radioButton_Oval.setAutoExclusive(True)
-        self.radioButton_Oval.setObjectName("radioButton_Oval")
-        self.radioButton_Oval.setText("Oval")
-        self.horizontalLayout_3.addWidget(self.radioButton_Oval)
+        newRadioButton("Wave")
+        newRadioButton("Oval")
+
 
         self.radioButton_22 = QtWidgets.QRadioButton(self.horizontalLayoutWidget_3)
         self.radioButton_22.setChecked(False)
         self.radioButton_22.setAutoExclusive(True)
         self.radioButton_22.setObjectName("radioButton_22")
         self.horizontalLayout_3.addWidget(self.radioButton_22)
+
         self.gridLayout_4.addWidget(self.frame_4, 1, 0, 1, 1)
         self.frame_3 = QtWidgets.QFrame(self.gridLayoutWidget_3)
         font = QtGui.QFont()
