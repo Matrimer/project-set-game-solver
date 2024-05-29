@@ -42,7 +42,7 @@ class SetSolver():
     
 #go through the card list and see if newCard is a duplicate of any card in the card list
     def noDuplicates(self, newCard):
-        for card in enumerate(self.cardList):
+        for card in self.cardList:
             if(newCard==card):
                 return False
         return True
@@ -50,14 +50,14 @@ class SetSolver():
 
     def addCardAndSolve(self,newCard):
         
-        if(self.noDuplicates(newCard)):
-            # Checks for sets with the new card and the cardlist then adds the card to the list
-            for i,firstCard in enumerate(self.cardList):
-                for secondCard in self.cardList[i+1:]:
+        # if(self.noDuplicates(newCard)):
+        # Checks for sets with the new card and the cardlist then adds the card to the list
+        for i,firstCard in enumerate(self.cardList):
+            for secondCard in self.cardList[i+1:]:
 
-                    if self.isSet(firstCard,secondCard,newCard):
-                        self.foundSets.append([newCard.location,firstCard.location,secondCard.location])
-            self.cardList.append(newCard)
+                if self.isSet(firstCard,secondCard,newCard):
+                    self.foundSets.append([newCard.location,firstCard.location,secondCard.location])
+        self.cardList.append(newCard)
 
     def isSet(self,one, two, three):
         # Loops over the fields/atributes of one whitch is an instance of a card
@@ -89,10 +89,13 @@ class MyWindow(QWidget) :
         for i in range(3):
             for j in range(4):
                 # creates card based on i and j and random values and solves them and shows them
-                location = Location(i,j)
-                card = Card(random.choice(["purple","green","red"]),random.choice(["D","W","O"]),random.choice(["E","F","L"]),random.choice(["1","2","3"]),location)
-                solver.addCardAndSolve(card)
-                self.showCard(card,grid)
+                while(True):
+                    location = Location(i,j)
+                    card = Card(random.choice(["purple","green","red"]),random.choice(["D","W","O"]),random.choice(["E","F","L"]),random.choice(["1","2","3"]),location)
+                    if (solver.noDuplicates(card)):
+                        solver.addCardAndSolve(card)
+                        self.showCard(card,grid)
+                        break
         #Todo change name from set to something better because name set is python name
         for set in solver.foundSets:
             print(f"{set[0]} and {set[1]} and {set[2]}")
