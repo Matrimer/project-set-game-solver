@@ -25,16 +25,12 @@ class Card():
 
     def __eq__(self, other):
         if isinstance(other, self.__class__):
-            return (self.color == otherCard.color and
-            self.shape == otherCard.shape and
-            self.filling == otherCard.filling and
-            self.amount == otherCard.amount)
-            self.__dict__ == other.__dict__
+            return (self.color == other.color and
+            self.shape == other.shape and
+            self.filling == other.filling and
+            self.amount == other.amount)
         else:
             return False
-        # if:
-        #     return True
-        # return False
 
 
 

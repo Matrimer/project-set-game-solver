@@ -42,9 +42,8 @@ class Ui_MainWindow(object):
         self.gridLayoutWidgetCardOptions.setGeometry(QtCore.QRect(450, 10, 700, 231))
         self.gridLayoutWidgetCardOptions.setObjectName("gridLayoutWidgetCardOptions")
 
-        self.gridLayout_4 = QtWidgets.QGridLayout(self.gridLayoutWidgetCardOptions)
-        self.gridLayout_4.setContentsMargins(0, 0, 0, 0)
-        self.gridLayout_4.setObjectName("gridLayout_4")
+        self.gridLayoutCardOptions = QtWidgets.QGridLayout(self.gridLayoutWidgetCardOptions)
+        self.gridLayoutCardOptions.setObjectName("gridLayoutCardOptions")
 
         self.frame_4 = QtWidgets.QFrame(self.gridLayoutWidgetCardOptions)
         self.frame_4.setObjectName("frame_4")
@@ -83,7 +82,7 @@ class Ui_MainWindow(object):
         self.radioButtonDiamond.setText("Diamond")
         self.horizontalLayoutCardOptions.addWidget(self.radioButtonDiamond)
 
-        self.gridLayout_4.addWidget(self.frame_4, 1, 0, 1, 1)
+        self.gridLayoutCardOptions.addWidget(self.frame_4, 1, 0, 1, 1)
         self.frameCardOptions = QtWidgets.QFrame(self.gridLayoutWidgetCardOptions)
         font = QtGui.QFont()
         font.setFamily("Small Fonts")
