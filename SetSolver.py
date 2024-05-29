@@ -6,6 +6,8 @@ import random
 
 import sys
 
+from Designe_SetSolver import *
+
 WINHEIGHT = 400
 WINWIDTH = 800
 class Location():
@@ -78,12 +80,19 @@ class MyWindow(QWidget) :
         self.setGeometry(50, 200, WINWIDTH, WINHEIGHT)
         self.setWindowTitle("Set Solver")
         self.setWindowIcon(QIcon("SetCards/RFW3.png"))
-        self.initUI()
+        self.initUI(self)
 
 
-    def initUI(self):
-        grid = QGridLayout()
-        self.setLayout(grid)
+    def initUI(self, grid):
+        # grid = QGridLayout()
+        # self.setLayout(grid)
+
+        # Create the grid layout
+        grid_layout = Ui_MainWindow.create_grid_layout()
+
+        # Set the layout for the main window
+        self.setLayout(grid_layout)
+
         # makes a 3 by 4 grid with random cards
         solver = SetSolver()
         for i in range(3):
@@ -101,6 +110,8 @@ class MyWindow(QWidget) :
     def showCard(self,card,grid):
         # Adds the card to the UI based on a card object
         self.addImage(grid,f"SetCards/R{card.filling}{card.shape}{card.amount}.png",card.location.x,card.location.y,QColor(card.color))
+        
+
 
 
     def addImage(self, grid, filelocation,x,y,color):
@@ -123,10 +134,23 @@ class MyWindow(QWidget) :
     
 
 def window():
-    app = QApplication(sys.argv)
+    app = QtWidgets.QApplication(sys.argv)
+    MainWindow = QtWidgets.QMainWindow()
+    ui = Ui_MainWindow()
+    ui.setupUi(MainWindow)
+    MainWindow.show()
+
     win = MyWindow()
-    win.show()
+    win.show()            
+    # Old window
+
     sys.exit(app.exec())
 
 
 window()
+
+# app = QtWidgets.QApplication(sys.argv)
+# MainWindow = QtWidgets.QMainWindow()
+# ui = Ui_MainWindow()
+# ui.setupUi(MainWindow)
+# MainWindow.show()
