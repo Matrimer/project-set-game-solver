@@ -123,7 +123,7 @@ class Ui_MainWindow(object):
         self.horizontalLayoutColor.addWidget(self.radioButtonPurple)
 
 
-        self.gridLayout_4.addWidget(self.frameCardOptions, 0, 0, 1, 1)
+        self.gridLayoutCardOptions.addWidget(self.frameCardOptions, 0, 0, 1, 1)
         self.frame_6 = QtWidgets.QFrame(self.gridLayoutWidgetCardOptions)
         font = QtGui.QFont()
         font.setFamily("Small Fonts")
@@ -160,7 +160,7 @@ class Ui_MainWindow(object):
         self.horizontalLayout_4.addWidget(self.radioButtonColor3)
 
 
-        self.gridLayout_4.addWidget(self.frame_6, 2, 0, 1, 1)
+        self.gridLayoutCardOptions.addWidget(self.frame_6, 2, 0, 1, 1)
         self.frame_7 = QtWidgets.QFrame(self.gridLayoutWidgetCardOptions)
         font = QtGui.QFont()
         font.setFamily("Small Fonts")
@@ -196,16 +196,16 @@ class Ui_MainWindow(object):
         self.radioButtonEmpty.setText("Empty")
         self.horizontalLayout_5.addWidget(self.radioButtonEmpty)
 
-        self.gridLayout_4.addWidget(self.frame_7, 3, 0, 1, 1)
+        self.gridLayoutCardOptions.addWidget(self.frame_7, 3, 0, 1, 1)
         self.NewCard = QtWidgets.QLabel(self.gridLayoutWidgetCardOptions)
         self.NewCard.setObjectName("NewCard")
         self.NewCard.setText("Image of user generated card")
-        self.gridLayout_4.addWidget(self.NewCard, 0, 1, 3, 1)
+        self.gridLayoutCardOptions.addWidget(self.NewCard, 0, 1, 3, 1)
         self.AddCardButton = QtWidgets.QPushButton(self.gridLayoutWidgetCardOptions)
         self.AddCardButton.setObjectName("AddCardButton")
         self.AddCardButton.setText("Add Card")
 
-        self.gridLayout_4.addWidget(self.AddCardButton, 3, 1, 1, 1)
+        self.gridLayoutCardOptions.addWidget(self.AddCardButton, 3, 1, 1, 1)
         MainWindow.setCentralWidget(self.centralwidget)
 
 

@@ -101,6 +101,8 @@ class MyWindow(QWidget) :
     def showCard(self,card,grid):
         # Adds the card to the UI based on a card object
         self.addImage(grid,f"SetCards/R{card.filling}{card.shape}{card.amount}.png",card.location.x,card.location.y,QColor(card.color))
+
+
     def addImage(self, grid, filelocation,x,y,color):
         # Creates and shows an image on the grid at x,y of file at filelocation with color color
         image = QImage(filelocation)
@@ -113,11 +115,7 @@ class MyWindow(QWidget) :
         label = QLabel(self)
         label.setPixmap(pixmap)
         grid.addWidget(label, x, y)
-    
-    def button1Clicked(self):
-        # Unused function?
-        self.label.setText("hellllll wat")
-        self.update()
+
     
     def update(self):
         self.label.adjustSize()
