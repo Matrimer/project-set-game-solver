@@ -1,7 +1,7 @@
 from PyQt6 import QtWidgets
 from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import *
-from PyQt6.QtGui import * 
+from PyQt6.QtGui import *
 import random
 
 import sys
@@ -43,7 +43,7 @@ class SetSolver():
     foundSets = []
     def __init__(self):
         pass
-    
+
 #go through the card list and see if newCard is a duplicate of any card in the card list
     def noDuplicates(self, newCard):
         for card in enumerate(self.cardList):
@@ -53,7 +53,7 @@ class SetSolver():
 
 
     def addCardAndSolve(self,newCard):
-        
+
         if(self.noDuplicates(newCard)):
             # Checks for sets with the new card and the cardlist then adds the card to the list
             for i,firstCard in enumerate(self.cardList):
@@ -73,10 +73,10 @@ class SetSolver():
                     return False
             elif getattr(one, attribute) != getattr(three, attribute):
                 return False
-        return True 
+        return True
 
 
-class MyWindow(QWidget) :    
+class MyWindow(QWidget) :
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.setGeometry(50, 200, WINWIDTH, WINHEIGHT)
@@ -101,7 +101,7 @@ class MyWindow(QWidget) :
         for set in solver.foundSets:
             print(f"{set[0]} and {set[1]} and {set[2]}")
 
-        
+
     def showCard(self,card,grid):
         # Adds the card to the UI based on a card object
         self.addImage(grid,f"SetCards/R{card.filling}{card.shape}{card.amount}.png",card.location.x,card.location.y,QColor(card.color))
@@ -117,16 +117,16 @@ class MyWindow(QWidget) :
         label = QLabel(self)
         label.setPixmap(pixmap)
         grid.addWidget(label, x, y)
-    
+
     def button1Clicked(self):
         # Unused function?
         self.label.setText("hellllll wat")
         self.update()
-    
+
     def update(self):
         self.label.adjustSize()
 
-    
+
 
 def window():
     app = QApplication(sys.argv)
