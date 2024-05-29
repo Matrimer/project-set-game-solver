@@ -5,9 +5,6 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(1200, 422)
-        # font = QtGui.QFont()
-        # font.setFamily("Small Fonts")
-        # MainWindow.setFont(font)
         MainWindow.setWindowFilePath("")
 
         self.centralwidget = QtWidgets.QWidget(MainWindow)
@@ -84,9 +81,6 @@ class Ui_MainWindow(object):
 
         self.gridLayoutCardOptions.addWidget(self.frame_4, 1, 0, 1, 1)
         self.frameCardOptions = QtWidgets.QFrame(self.gridLayoutWidgetCardOptions)
-        # font = QtGui.QFont()
-        # font.setFamily("Small Fonts")
-        # self.frameCardOptions.setFont(font)
         self.frameCardOptions.setObjectName("frameCardOptions")
         self.label = QtWidgets.QLabel(self.frameCardOptions)
         self.label.setGeometry(QtCore.QRect(0, 40, 35, 10))
@@ -125,9 +119,6 @@ class Ui_MainWindow(object):
 
         self.gridLayoutCardOptions.addWidget(self.frameCardOptions, 0, 0, 1, 1)
         self.frame_6 = QtWidgets.QFrame(self.gridLayoutWidgetCardOptions)
-        # font = QtGui.QFont()
-        # font.setFamily("Small Fonts")
-        # self.frame_6.setFont(font)
         self.frame_6.setObjectName("frame_6")
         self.horizontalLayoutWidget_Color = QtWidgets.QWidget(self.frame_6)
         self.horizontalLayoutWidget_Color.setGeometry(QtCore.QRect(0, 0, 300, 26))
@@ -162,9 +153,6 @@ class Ui_MainWindow(object):
 
         self.gridLayoutCardOptions.addWidget(self.frame_6, 2, 0, 1, 1)
         self.frame_7 = QtWidgets.QFrame(self.gridLayoutWidgetCardOptions)
-        # font = QtGui.QFont()
-        # font.setFamily("Small Fonts")
-        # self.frame_7.setFont(font)
         self.frame_7.setObjectName("frame_7")
         self.horizontalLayoutWidget_5 = QtWidgets.QWidget(self.frame_7)
         self.horizontalLayoutWidget_5.setGeometry(QtCore.QRect(0, 0, 300, 26))
