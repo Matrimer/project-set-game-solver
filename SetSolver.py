@@ -1,7 +1,7 @@
 from PyQt6 import QtWidgets
 from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import *
-from PyQt6.QtGui import * 
+from PyQt6.QtGui import *
 import random
 
 import sys
@@ -47,7 +47,7 @@ class SetSolver():
     foundSets = []
     def __init__(self):
         pass
-    
+
 #go through the card list and see if newCard is a duplicate of any card in the card list
     def noDuplicates(self, newCard):
         for card in enumerate(self.cardList):
@@ -57,7 +57,7 @@ class SetSolver():
 
 
     def addCardAndSolve(self,newCard):
-        
+
         if(self.noDuplicates(newCard)):
             # Checks for sets with the new card and the cardlist then adds the card to the list
             for i,firstCard in enumerate(self.cardList):
@@ -77,7 +77,7 @@ class SetSolver():
                     return False
             elif getattr(one, attribute) != getattr(three, attribute):
                 return False
-        return True 
+        return True
     def getCard(self,location):
         # Returns a card from the cardlist based on the location
         for card in self.cardList:
@@ -90,7 +90,7 @@ class SetSolver():
         if card is not None:
             self.cardList.remove(card)
 
-class MyWindow(QWidget) :    
+class MyWindow(QWidget) :
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.setGeometry(50, 200, WINWIDTH, WINHEIGHT)
@@ -100,20 +100,35 @@ class MyWindow(QWidget) :
 
     def initUI(self):
 
+        def newRadioButton(name, gridAttribute, horizontalAttribute) :
+            radioButtonName = ("radioButton" + name)
+            radioButton = QtWidgets.QRadioButton(gridAttribute)
+            radioButton.setChecked(False)
+            radioButton.setAutoExclusive(True)
+            radioButton.setObjectName(radioButtonName)
+            radioButton.setText(name)
+            radioButton.clicked.connect(self.UpdateCard)
+
+            setattr(self, radioButtonName, radioButton)
+
+            horizontalAttribute.addWidget(radioButton)
+
+
         grid_layout = QGridLayout()
 
         # Set the layout for the main window
         self.setLayout(grid_layout)
 
 
-        self.gridLayoutWidgetCardOptions = QtWidgets.QWidget(self)
-        self.gridLayoutWidgetCardOptions.setGeometry(QtCore.QRect(450, 10, 700, 231))
-        self.gridLayoutWidgetCardOptions.setObjectName("gridLayoutWidgetCardOptions")
 
-        self.gridLayoutCardOptions = QtWidgets.QGridLayout(self.gridLayoutWidgetCardOptions)
+        self.gridLayoutWidgetShape = QtWidgets.QWidget(self)
+        self.gridLayoutWidgetShape.setGeometry(QtCore.QRect(450, 10, 700, 231))
+        self.gridLayoutWidgetShape.setObjectName("gridLayoutWidgetShape")
+
+        self.gridLayoutCardOptions = QtWidgets.QGridLayout(self.gridLayoutWidgetShape)
         self.gridLayoutCardOptions.setObjectName("gridLayoutCardOptions")
 
-        self.frame_4 = QtWidgets.QFrame(self.gridLayoutWidgetCardOptions)
+        self.frame_4 = QtWidgets.QFrame(self.gridLayoutWidgetShape)
         self.frame_4.setObjectName("frame_4")
 
         self.frame_5 = QtWidgets.QFrame(self.frame_4)
@@ -131,30 +146,15 @@ class MyWindow(QWidget) :
         self.labelShape.setText("Shape:")
         self.horizontalLayoutCardOptions.addWidget(self.labelShape)
 
-        self.radioButtonWave = QtWidgets.QRadioButton(self.horizontalLayoutWidgetCardOptions)
-        self.radioButtonWave.setChecked(True)
-        self.radioButtonWave.setAutoExclusive(True)
-        self.radioButtonWave.setObjectName("radioButtonWave")
-        self.radioButtonWave.setText("Wave")
-        self.radioButtonWave.clicked.connect(self.UpdateCard)
-        self.horizontalLayoutCardOptions.addWidget(self.radioButtonWave)
 
-        self.radioButtonOval = QtWidgets.QRadioButton(self.horizontalLayoutWidgetCardOptions)
-        self.radioButtonOval.setAutoExclusive(True)
-        self.radioButtonOval.setObjectName("radioButtonOval")
-        self.radioButtonOval.setText("Oval")
-        self.radioButtonOval.clicked.connect(self.UpdateCard)
-        self.horizontalLayoutCardOptions.addWidget(self.radioButtonOval)
+        newRadioButton("Wave", self.gridLayoutWidgetShape, self.horizontalLayoutCardOptions)
+        newRadioButton("Oval", self.gridLayoutWidgetShape, self.horizontalLayoutCardOptions)
+        newRadioButton("Diamond", self.gridLayoutWidgetShape, self.horizontalLayoutCardOptions)
 
-        self.radioButtonDiamond = QtWidgets.QRadioButton(self.horizontalLayoutWidgetCardOptions)
-        self.radioButtonDiamond.setAutoExclusive(True)
-        self.radioButtonDiamond.setObjectName("radioButtonDiamond")
-        self.radioButtonDiamond.setText("Diamond")
-        self.radioButtonDiamond.clicked.connect(self.UpdateCard)
-        self.horizontalLayoutCardOptions.addWidget(self.radioButtonDiamond)
+
 
         self.gridLayoutCardOptions.addWidget(self.frame_4, 1, 0, 1, 1)
-        self.frameCardOptions = QtWidgets.QFrame(self.gridLayoutWidgetCardOptions)
+        self.frameCardOptions = QtWidgets.QFrame(self.gridLayoutWidgetShape)
         self.frameCardOptions.setObjectName("frameCardOptions")
         self.label = QtWidgets.QLabel(self.frameCardOptions)
         self.label.setGeometry(QtCore.QRect(0, 40, 35, 10))
@@ -171,31 +171,12 @@ class MyWindow(QWidget) :
         self.labelColor.setText("Color:")
         self.horizontalLayoutColor.addWidget(self.labelColor)
 
-        self.radioButtonRed = QtWidgets.QRadioButton(self.horizontalLayoutWidgetColor)
-        self.radioButtonRed.setChecked(True)
-        self.radioButtonRed.setAutoExclusive(True)
-        self.radioButtonRed.setObjectName("radioButtonRed")
-        self.radioButtonRed.setText("Red")
-        self.radioButtonRed.clicked.connect(self.UpdateCard)
-        self.horizontalLayoutColor.addWidget(self.radioButtonRed)
-
-        self.radioButtonGreen = QtWidgets.QRadioButton(self.horizontalLayoutWidgetColor)
-        self.radioButtonGreen.setAutoExclusive(True)
-        self.radioButtonGreen.setObjectName("radioButtonGreen")
-        self.radioButtonGreen.setText("Green")
-        self.radioButtonGreen.clicked.connect(self.UpdateCard)
-        self.horizontalLayoutColor.addWidget(self.radioButtonGreen)
-
-        self.radioButtonPurple = QtWidgets.QRadioButton(self.horizontalLayoutWidgetColor)
-        self.radioButtonPurple.setAutoExclusive(True)
-        self.radioButtonPurple.setObjectName("radioButtonPurple")
-        self.radioButtonPurple.setText("Purple")
-        self.radioButtonPurple.clicked.connect(self.UpdateCard)
-        self.horizontalLayoutColor.addWidget(self.radioButtonPurple)
-
+        newRadioButton("Red", self.horizontalLayoutWidgetColor, self.horizontalLayoutColor)
+        newRadioButton("Green", self.horizontalLayoutWidgetColor, self.horizontalLayoutColor)
+        newRadioButton("Purple", self.horizontalLayoutWidgetColor, self.horizontalLayoutColor)
 
         self.gridLayoutCardOptions.addWidget(self.frameCardOptions, 0, 0, 1, 1)
-        self.frame_6 = QtWidgets.QFrame(self.gridLayoutWidgetCardOptions)
+        self.frame_6 = QtWidgets.QFrame(self.gridLayoutWidgetShape)
         self.frame_6.setObjectName("frame_6")
         self.horizontalLayoutWidget_Color = QtWidgets.QWidget(self.frame_6)
         self.horizontalLayoutWidget_Color.setGeometry(QtCore.QRect(0, 0, 300, 26))
@@ -208,31 +189,12 @@ class MyWindow(QWidget) :
         self.labelAmount.setText("Amount:")
         self.horizontalLayout_4.addWidget(self.labelAmount)
 
-        self.radioButtonColor1 = QtWidgets.QRadioButton(self.horizontalLayoutWidget_Color)
-        self.radioButtonColor1.setChecked(True)
-        self.radioButtonColor1.setAutoExclusive(True)
-        self.radioButtonColor1.setObjectName("radioButtonColor1")
-        self.radioButtonColor1.setText("1")
-        self.radioButtonColor1.clicked.connect(self.UpdateCard)
-        self.horizontalLayout_4.addWidget(self.radioButtonColor1)
-
-        self.radioButtonColor2 = QtWidgets.QRadioButton(self.horizontalLayoutWidget_Color)
-        self.radioButtonColor2.setAutoExclusive(True)
-        self.radioButtonColor2.setObjectName("radioButtonColor2")
-        self.radioButtonColor2.setText("2")
-        self.radioButtonColor2.clicked.connect(self.UpdateCard)
-        self.horizontalLayout_4.addWidget(self.radioButtonColor2)
-
-        self.radioButtonColor3 = QtWidgets.QRadioButton(self.horizontalLayoutWidget_Color)
-        self.radioButtonColor3.setAutoExclusive(True)
-        self.radioButtonColor3.setObjectName("radioButtonColor3")
-        self.radioButtonColor3.setText("3")
-        self.radioButtonColor3.clicked.connect(self.UpdateCard)
-        self.horizontalLayout_4.addWidget(self.radioButtonColor3)
-
+        newRadioButton("1", self.horizontalLayoutWidget_Color, self.horizontalLayout_4)
+        newRadioButton("2", self.horizontalLayoutWidget_Color, self.horizontalLayout_4)
+        newRadioButton("3", self.horizontalLayoutWidget_Color, self.horizontalLayout_4)
 
         self.gridLayoutCardOptions.addWidget(self.frame_6, 2, 0, 1, 1)
-        self.frame_7 = QtWidgets.QFrame(self.gridLayoutWidgetCardOptions)
+        self.frame_7 = QtWidgets.QFrame(self.gridLayoutWidgetShape)
         self.frame_7.setObjectName("frame_7")
         self.horizontalLayoutWidget_5 = QtWidgets.QWidget(self.frame_7)
         self.horizontalLayoutWidget_5.setGeometry(QtCore.QRect(0, 0, 300, 26))
@@ -245,42 +207,24 @@ class MyWindow(QWidget) :
         self.labelFilling.setText("Filling:")
         self.horizontalLayout_5.addWidget(self.labelFilling)
 
-        self.radioButtonFull = QtWidgets.QRadioButton(self.horizontalLayoutWidget_5)
-        self.radioButtonFull.setChecked(True)
-        self.radioButtonFull.setAutoExclusive(True)
-        self.radioButtonFull.setObjectName("radioButtonFull")
-        self.radioButtonFull.setText("Full")
-        self.radioButtonFull.clicked.connect(self.UpdateCard)
-        self.horizontalLayout_5.addWidget(self.radioButtonFull)
-
-        self.radioButtonHalf = QtWidgets.QRadioButton(self.horizontalLayoutWidget_5)
-        self.radioButtonHalf.setAutoExclusive(True)
-        self.radioButtonHalf.setObjectName("radioButtonHalf")
-        self.radioButtonHalf.setText("Half")
-        self.radioButtonHalf.clicked.connect(self.UpdateCard)
-        self.horizontalLayout_5.addWidget(self.radioButtonHalf)
-
-        self.radioButtonEmpty = QtWidgets.QRadioButton(self.horizontalLayoutWidget_5)
-        self.radioButtonEmpty.setAutoExclusive(True)
-        self.radioButtonEmpty.setObjectName("radioButtonEmpty")
-        self.radioButtonEmpty.setText("Empty")
-        self.radioButtonEmpty.clicked.connect(self.UpdateCard)
-        self.horizontalLayout_5.addWidget(self.radioButtonEmpty)
+        newRadioButton("Full", self.horizontalLayoutWidget_5, self.horizontalLayout_5)
+        newRadioButton("Half", self.horizontalLayoutWidget_5, self.horizontalLayout_5)
+        newRadioButton("Empty", self.horizontalLayoutWidget_5, self.horizontalLayout_5)
 
         self.gridLayoutCardOptions.addWidget(self.frame_7, 3, 0, 1, 1)
-        self.NewCard = QtWidgets.QLabel(self.gridLayoutWidgetCardOptions)
+        self.NewCard = QtWidgets.QLabel(self.gridLayoutWidgetShape)
         self.NewCard.setObjectName("NewCard")
         self.NewCard.setText("Image of user generated card")
         self.gridLayoutCardOptions.addWidget(self.NewCard, 0, 1, 3, 1)
-        self.AddCardButton = QtWidgets.QPushButton(self.gridLayoutWidgetCardOptions)
+        self.AddCardButton = QtWidgets.QPushButton(self.gridLayoutWidgetShape)
         self.AddCardButton.setObjectName("AddCardButton")
         self.AddCardButton.setText("Add Card")
         self.gridLayoutCardOptions.addWidget(self.AddCardButton, 1, 1, 3, 1)
         self.AddCardButton.clicked.connect(self.ChangeCard)  # Connect the clicked signal of the AddCardButton to the addCard method
 
-        
 
-        grid_layout.addWidget(self.gridLayoutWidgetCardOptions, 0, 15, 3, 4)  # Add the card options widget to the main layout and set its position to 2x2
+
+        grid_layout.addWidget(self.gridLayoutWidgetShape, 0, 15, 3, 4)  # Add the card options widget to the main layout and set its position to 2x2
 
         self.setLayout(grid_layout)  # Set the layout for the main window
         self.grid_layout = grid_layout
@@ -288,11 +232,11 @@ class MyWindow(QWidget) :
         # self.setLayout(grid)
 
         # Create the grid layout
-        
+
 
         # makes a 3 by 4 grid with random cards
         self.solver = SetSolver()
-        
+
         for i in range(4):
             for j in range(3):
                 # creates card based on i and j and random values and solves them and shows them
@@ -300,7 +244,7 @@ class MyWindow(QWidget) :
                 card = Card(random.choice(["purple","green","red"]),random.choice(["D","W","O"]),random.choice(["E","F","L"]),random.choice(["1","2","3"]),location)
                 self.solver.addCardAndSolve(card)
                 self.showCard(card,grid_layout)
-    
+
         #Todo change name from set to something better because name set is python name
         for set in self.solver.foundSets:
             print(f"{set[0]} and {set[1]} and {set[2]}")
@@ -333,11 +277,11 @@ class MyWindow(QWidget) :
         elif self.radioButtonEmpty.isChecked():
             filling = "E"
 
-        if self.radioButtonColor1.isChecked():
+        if self.radioButton1.isChecked():
             amount = "1"
-        elif self.radioButtonColor2.isChecked():
+        elif self.radioButton2.isChecked():
             amount = "2"
-        elif self.radioButtonColor3.isChecked():
+        elif self.radioButton3.isChecked():
             amount = "3"
         image = QImage(f"SetCards/R{filling}{shape}{amount}.png")
         image = image.convertToFormat(QImage.Format.Format_RGB32)
@@ -346,16 +290,16 @@ class MyWindow(QWidget) :
                 if image.pixelColor(i,j).black()==0:
                     image.setPixelColor(i,j,QColor(color))
         pixmap = QPixmap.fromImage(image)
-        
-        
+
+
         # self.gridLayoutCardOptions.addWidget(, 0,1,3,1)
         # print(card.color)
         # print(card.shape)
         # print(card.filling)
         # print(card.amount)
         # print(card.location)
-        
-        
+
+
         self.NewCard.setPixmap(pixmap)
 
     def showCard(self, card, grid_layout):
@@ -401,7 +345,7 @@ class MyWindow(QWidget) :
         solver.removeCard(self.seletectedLocation)
         solver.addCardAndSolve(card)
         self.showCard(card, self.grid_layout)
-    
+
     def addImage(self, grid_layout, filelocation,x,y,color):
         # Creates and shows an image on the grid at x,y of file at filelocation with color color
         image = QImage(filelocation)
@@ -421,7 +365,7 @@ class MyWindow(QWidget) :
 
         # grid.addWidget(label, x, y)
     def buttonClicked(self):
-        select_grid = self.gridLayoutWidgetCardOptions
+        select_grid = self.gridLayoutWidgetShape
         # Removes the clicked button from the grid
         button = self.sender()
 
@@ -441,16 +385,16 @@ class MyWindow(QWidget) :
                     if image.pixelColor(i,j).black()==0:
                         image.setPixelColor(i,j,QColor(card.color))
             pixmap = QPixmap.fromImage(image)
-            
-            
+
+
             # self.gridLayoutCardOptions.addWidget(, 0,1,3,1)
             # print(card.color)
             # print(card.shape)
             # print(card.filling)
             # print(card.amount)
             # print(card.location)
-            
-            
+
+
             self.NewCard.setPixmap(pixmap)
 
             # self.gridLayoutCardOptions.addWidget(NewCard, 0, 1, 1, 1)
@@ -458,11 +402,11 @@ class MyWindow(QWidget) :
             print(f"Card not found at location {x},{y}")
 
         self.update()
-    
+
     def update(self):
         self.label.adjustSize()
 
-    
+
 
 def window():
     app = QtWidgets.QApplication(sys.argv)
@@ -472,7 +416,7 @@ def window():
     # MainWindow.show()
 
     win = MyWindow()
-    win.show()            
+    win.show()
     # Old window
 
     sys.exit(app.exec())
