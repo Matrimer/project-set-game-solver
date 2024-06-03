@@ -1,12 +1,10 @@
-from PyQt6 import QtWidgets
+from PyQt6 import QtWidgets,QtCore
 from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import *
 from PyQt6.QtGui import * 
 import random
 
 import sys
-
-from Designe_SetSolver import *
 
 WINHEIGHT = 400
 WINWIDTH = 1500
@@ -69,7 +67,6 @@ class SetSolver():
 
     def isSet(self,one, two, three):
         # Loops over the fields/atributes of one whitch is an instance of a card
-        # Not clean
         for attribute, value in one.__dict__.items():
             # compares cards bassed on there values at the atributes
             if getattr(one, attribute) != getattr(two, attribute):
@@ -104,7 +101,6 @@ class MyWindow(QWidget) :
 
         # Set the layout for the main window
         self.setLayout(grid_layout)
-
 
         self.gridLayoutWidgetCardOptions = QtWidgets.QWidget(self)
         self.gridLayoutWidgetCardOptions.setGeometry(QtCore.QRect(450, 10, 700, 231))
@@ -284,11 +280,6 @@ class MyWindow(QWidget) :
 
         self.setLayout(grid_layout)  # Set the layout for the main window
         self.grid_layout = grid_layout
-        # grid = QGridLayout()
-        # self.setLayout(grid)
-
-        # Create the grid layout
-        
 
         # makes a 3 by 4 grid with random cards
         self.solver = SetSolver()
@@ -346,15 +337,6 @@ class MyWindow(QWidget) :
                 if image.pixelColor(i,j).black()==0:
                     image.setPixelColor(i,j,QColor(color))
         pixmap = QPixmap.fromImage(image)
-        
-        
-        # self.gridLayoutCardOptions.addWidget(, 0,1,3,1)
-        # print(card.color)
-        # print(card.shape)
-        # print(card.filling)
-        # print(card.amount)
-        # print(card.location)
-        
         
         self.NewCard.setPixmap(pixmap)
 
@@ -415,11 +397,8 @@ class MyWindow(QWidget) :
         button.setIcon(QIcon(pixmap))
         button.setIconSize(pixmap.size())
         button.clicked.connect(self.buttonClicked)
-        # print(type(grid_layout))
         grid_layout.addWidget(button, x, y)
-        # Remove widget at x, y from grid_layout
 
-        # grid.addWidget(label, x, y)
     def buttonClicked(self):
         select_grid = self.gridLayoutWidgetCardOptions
         # Removes the clicked button from the grid
@@ -443,17 +422,8 @@ class MyWindow(QWidget) :
             pixmap = QPixmap.fromImage(image)
             
             
-            # self.gridLayoutCardOptions.addWidget(, 0,1,3,1)
-            # print(card.color)
-            # print(card.shape)
-            # print(card.filling)
-            # print(card.amount)
-            # print(card.location)
-            
             
             self.NewCard.setPixmap(pixmap)
-
-            # self.gridLayoutCardOptions.addWidget(NewCard, 0, 1, 1, 1)
         else:
             print(f"Card not found at location {x},{y}")
 
@@ -466,24 +436,8 @@ class MyWindow(QWidget) :
 
 def window():
     app = QtWidgets.QApplication(sys.argv)
-    # MainWindow = QtWidgets.QMainWindow()
-    # ui = Ui_MainWindow()
-    # ui.setupUi(MainWindow)
-    # MainWindow.show()
-
     win = MyWindow()
     win.show()            
-    # Old window
-
     sys.exit(app.exec())
 
-
 window()
-
-# app = QtWidgets.QApplication(sys.argv)
-# MainWindow = QtWidgets.QMainWindow()
-# ui = Ui_MainWindow()
-# ui.setupUi(MainWindow)
-# MainWindow.show()dow()
-# ui.setupUi(MainWindow)
-# MainWindow.show()
