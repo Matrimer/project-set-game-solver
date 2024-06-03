@@ -1,37 +1,39 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
-
+from PyQt6.QtWidgets import QApplication, QWidget, QGridLayout, QPushButton
+# import sys
 
 class Ui_MainWindow(object):
+
     def setupUi(self, MainWindow):
-        MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(1200, 422)
-        MainWindow.setWindowFilePath("")
+        MainWindow.resize(1900, 2000)
 
         self.centralwidget = QtWidgets.QWidget(MainWindow)
-        self.centralwidget.setObjectName("centralwidget")
+        # self.centralwidget.setObjectName("centralwidget")
 
-        self.gridLayoutWidget = QtWidgets.QWidget(self.centralwidget)
-        self.gridLayoutWidget.setGeometry(QtCore.QRect(10, 10, 431, 381))
-        self.gridLayoutWidget.setObjectName("gridLayoutWidget")
-        self.gridLayout = QtWidgets.QGridLayout(self.gridLayoutWidget)
-        self.gridLayout.setContentsMargins(0, 0, 0, 0)
-        self.gridLayout.setObjectName("gridLayout")
+        # self.gridLayoutWidget = QtWidgets.QWidget(self.centralwidget)
+        # self.gridLayoutWidget.setGeometry(QtCore.QRect(10, 10, 431, 381))
+        # self.gridLayoutWidget.setObjectName("gridLayoutWidget")
+        # self.gridLayout = QtWidgets.QGridLayout(self.gridLayoutWidget)
+        # self.gridLayout.setContentsMargins(0, 0, 0, 0)
+        # self.gridLayout.setObjectName("gridLayout")
 
-        def newGridBox(i, x, y) :
-            self.graphicsView = QtWidgets.QGraphicsView(self.gridLayoutWidget)
-            self.graphicsView.setObjectName("graphicsView" + str(i))
-            self.graphicsView.setAutoFillBackground(True)
-            self.gridLayout.addWidget(self.graphicsView, y, x, 1, 1)
+        # def newGridBox(i, x, y) :
+        #     self.graphicsView = QtWidgets.QGraphicsView(self.gridLayoutWidget)
+        #     self.graphicsView.setObjectName("graphicsView" + str(i))
+        #     self.graphicsView.setAutoFillBackground(True)
+        #     self.gridLayout.addWidget(self.graphicsView, y, x, 1, 1)
 
-        # Create gridBoxes
-        i = 0
-        for y in range (0,4) :
-            if y > 0 :
-                y = y + 1
+        # # Create gridBoxes
+        # i = 0
+        # for y in range (0,4) :
+        #     if y > 0 :
+        #         y = y + 1
 
-            for x in range(0,3) :
-                newGridBox(i, x, y)
-                i = i + 1
+        #     for x in range(0,3) :
+        #         newGridBox(i, x, y)
+        #         i = i + 1
+
+        # self.setLayout(cardGrid)
 
 #### RIGHT SIDE BEGINS HERE.
 
@@ -198,11 +200,10 @@ class Ui_MainWindow(object):
 
 
 
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    MainWindow = QtWidgets.QMainWindow()
-    ui = Ui_MainWindow()
-    ui.setupUi(MainWindow)
-    MainWindow.show()
-    sys.exit(app.exec())
+# if __name__ == "__main__":
+#     app = QtWidgets.QApplication(sys.argv)
+#     MainWindow = QtWidgets.QMainWindow()
+#     ui = Ui_MainWindow()
+#     ui.setupUi(MainWindow)
+#     MainWindow.show()
+#     sys.exit(app.exec())
