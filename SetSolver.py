@@ -61,9 +61,8 @@ class SetSolver():
             # Checks for sets with the new card and the cardlist then adds the card to the list
             for i,firstCard in enumerate(self.cardList):
                 for secondCard in self.cardList[i+1:]:
-
-                if self.isSet(firstCard,secondCard,newCard):
-                    self.foundSets.append([newCard.location,firstCard.location,secondCard.location])
+                    if self.isSet(firstCard,secondCard,newCard):
+                        self.foundSets.append([newCard.location,firstCard.location,secondCard.location])
         self.cardList.append(newCard)
 
     def isSet(self,one, two, three):
@@ -121,20 +120,16 @@ class MyWindow(QWidget) :
 
 
         self.gridLayoutWidgetShape = QtWidgets.QWidget(self)
+
+
         self.gridLayoutWidgetShape.setGeometry(QtCore.QRect(450, 10, 700, 231))
         self.gridLayoutWidgetShape.setObjectName("gridLayoutWidgetShape")
-
         self.gridLayoutCardOptions = QtWidgets.QGridLayout(self.gridLayoutWidgetShape)
         self.gridLayoutCardOptions.setObjectName("gridLayoutCardOptions")
-
         self.frame_4 = QtWidgets.QFrame(self.gridLayoutWidgetShape)
         self.frame_4.setObjectName("frame_4")
-
-        self.frame_5 = QtWidgets.QFrame(self.frame_4)
-        self.frame_5.setGeometry(QtCore.QRect(0, 0, 400, 200))
-
-
-        self.horizontalLayoutWidgetCardOptions = QtWidgets.QWidget(self.frame_5)
+        self.frame_4.setGeometry(QtCore.QRect(0, 0, 400, 200))
+        self.horizontalLayoutWidgetCardOptions = QtWidgets.QWidget(self.frame_4)
         self.horizontalLayoutWidgetCardOptions.setGeometry(QtCore.QRect(0, 0, 300, 26))
         self.horizontalLayoutWidgetCardOptions.setObjectName("horizontalLayoutWidgetCardOptions")
         self.horizontalLayoutCardOptions = QtWidgets.QHBoxLayout(self.horizontalLayoutWidgetCardOptions)
@@ -242,9 +237,9 @@ class MyWindow(QWidget) :
                 while(True):
                     location = Location(i,j)
                     card = Card(random.choice(["purple","green","red"]),random.choice(["D","W","O"]),random.choice(["E","F","L"]),random.choice(["1","2","3"]),location)
-                    if (solver.noDuplicates(card)):
-                        solver.addCardAndSolve(card)
-                        self.showCard(card,grid)
+                    if (self.solver.noDuplicates(card)):
+                        self.solver.addCardAndSolve(card)
+                        self.showCard(card,self.grid_layout)
                         break
         #Todo change name from set to something better because name set is python name
         for set in self.solver.foundSets:
@@ -334,11 +329,11 @@ class MyWindow(QWidget) :
         elif self.radioButtonEmpty.isChecked():
             filling = "E"
 
-        if self.radioButtonColor1.isChecked():
+        if self.radioButton1.isChecked():
             amount = "1"
-        elif self.radioButtonColor2.isChecked():
+        elif self.radioButton2.isChecked():
             amount = "2"
-        elif self.radioButtonColor3.isChecked():
+        elif self.radioButton3.isChecked():
             amount = "3"
 
         card = Card(color, shape, filling, amount, self.seletectedLocation)
