@@ -4,13 +4,8 @@ from PyQt6.QtWidgets import QApplication, QWidget, QGridLayout, QPushButton
 
 class Ui_MainWindow(object):
 
-    def create_grid_layout():
-        cardGrid = QGridLayout()
-        return cardGrid
-
-
     def setupUi(self, MainWindow):
-        MainWindow.resize(1200, 500)
+        MainWindow.resize(1900, 2000)
 
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         # self.centralwidget.setObjectName("centralwidget")
