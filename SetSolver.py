@@ -136,18 +136,21 @@ class MyWindow(QWidget) :
         self.radioButtonWave.setAutoExclusive(True)
         self.radioButtonWave.setObjectName("radioButtonWave")
         self.radioButtonWave.setText("Wave")
+        self.radioButtonWave.clicked.connect(self.UpdateCard)
         self.horizontalLayoutCardOptions.addWidget(self.radioButtonWave)
 
         self.radioButtonOval = QtWidgets.QRadioButton(self.horizontalLayoutWidgetCardOptions)
         self.radioButtonOval.setAutoExclusive(True)
         self.radioButtonOval.setObjectName("radioButtonOval")
         self.radioButtonOval.setText("Oval")
+        self.radioButtonOval.clicked.connect(self.UpdateCard)
         self.horizontalLayoutCardOptions.addWidget(self.radioButtonOval)
 
         self.radioButtonDiamond = QtWidgets.QRadioButton(self.horizontalLayoutWidgetCardOptions)
         self.radioButtonDiamond.setAutoExclusive(True)
         self.radioButtonDiamond.setObjectName("radioButtonDiamond")
         self.radioButtonDiamond.setText("Diamond")
+        self.radioButtonDiamond.clicked.connect(self.UpdateCard)
         self.horizontalLayoutCardOptions.addWidget(self.radioButtonDiamond)
 
         self.gridLayoutCardOptions.addWidget(self.frame_4, 1, 0, 1, 1)
@@ -173,18 +176,21 @@ class MyWindow(QWidget) :
         self.radioButtonRed.setAutoExclusive(True)
         self.radioButtonRed.setObjectName("radioButtonRed")
         self.radioButtonRed.setText("Red")
+        self.radioButtonRed.clicked.connect(self.UpdateCard)
         self.horizontalLayoutColor.addWidget(self.radioButtonRed)
 
         self.radioButtonGreen = QtWidgets.QRadioButton(self.horizontalLayoutWidgetColor)
         self.radioButtonGreen.setAutoExclusive(True)
         self.radioButtonGreen.setObjectName("radioButtonGreen")
         self.radioButtonGreen.setText("Green")
+        self.radioButtonGreen.clicked.connect(self.UpdateCard)
         self.horizontalLayoutColor.addWidget(self.radioButtonGreen)
 
         self.radioButtonPurple = QtWidgets.QRadioButton(self.horizontalLayoutWidgetColor)
         self.radioButtonPurple.setAutoExclusive(True)
         self.radioButtonPurple.setObjectName("radioButtonPurple")
         self.radioButtonPurple.setText("Purple")
+        self.radioButtonPurple.clicked.connect(self.UpdateCard)
         self.horizontalLayoutColor.addWidget(self.radioButtonPurple)
 
 
@@ -207,18 +213,21 @@ class MyWindow(QWidget) :
         self.radioButtonColor1.setAutoExclusive(True)
         self.radioButtonColor1.setObjectName("radioButtonColor1")
         self.radioButtonColor1.setText("1")
+        self.radioButtonColor1.clicked.connect(self.UpdateCard)
         self.horizontalLayout_4.addWidget(self.radioButtonColor1)
 
         self.radioButtonColor2 = QtWidgets.QRadioButton(self.horizontalLayoutWidget_Color)
         self.radioButtonColor2.setAutoExclusive(True)
         self.radioButtonColor2.setObjectName("radioButtonColor2")
         self.radioButtonColor2.setText("2")
+        self.radioButtonColor2.clicked.connect(self.UpdateCard)
         self.horizontalLayout_4.addWidget(self.radioButtonColor2)
 
         self.radioButtonColor3 = QtWidgets.QRadioButton(self.horizontalLayoutWidget_Color)
         self.radioButtonColor3.setAutoExclusive(True)
         self.radioButtonColor3.setObjectName("radioButtonColor3")
         self.radioButtonColor3.setText("3")
+        self.radioButtonColor3.clicked.connect(self.UpdateCard)
         self.horizontalLayout_4.addWidget(self.radioButtonColor3)
 
 
@@ -241,18 +250,21 @@ class MyWindow(QWidget) :
         self.radioButtonFull.setAutoExclusive(True)
         self.radioButtonFull.setObjectName("radioButtonFull")
         self.radioButtonFull.setText("Full")
+        self.radioButtonFull.clicked.connect(self.UpdateCard)
         self.horizontalLayout_5.addWidget(self.radioButtonFull)
 
         self.radioButtonHalf = QtWidgets.QRadioButton(self.horizontalLayoutWidget_5)
         self.radioButtonHalf.setAutoExclusive(True)
         self.radioButtonHalf.setObjectName("radioButtonHalf")
         self.radioButtonHalf.setText("Half")
+        self.radioButtonHalf.clicked.connect(self.UpdateCard)
         self.horizontalLayout_5.addWidget(self.radioButtonHalf)
 
         self.radioButtonEmpty = QtWidgets.QRadioButton(self.horizontalLayoutWidget_5)
         self.radioButtonEmpty.setAutoExclusive(True)
         self.radioButtonEmpty.setObjectName("radioButtonEmpty")
         self.radioButtonEmpty.setText("Empty")
+        self.radioButtonEmpty.clicked.connect(self.UpdateCard)
         self.horizontalLayout_5.addWidget(self.radioButtonEmpty)
 
         self.gridLayoutCardOptions.addWidget(self.frame_7, 3, 0, 1, 1)
@@ -293,6 +305,59 @@ class MyWindow(QWidget) :
         for set in self.solver.foundSets:
             print(f"{set[0]} and {set[1]} and {set[2]}")
 
+    def UpdateCard(self):
+        # Updates the card in the card options widget
+        color = ""
+        shape = ""
+        filling = ""
+        amount = ""
+
+        if self.radioButtonRed.isChecked():
+            color = "Red"
+        elif self.radioButtonGreen.isChecked():
+            color = "Green"
+        elif self.radioButtonPurple.isChecked():
+            color = "Purple"
+
+        if self.radioButtonWave.isChecked():
+            shape = "W"
+        elif self.radioButtonOval.isChecked():
+            shape = "O"
+        elif self.radioButtonDiamond.isChecked():
+            shape = "D"
+
+        if self.radioButtonFull.isChecked():
+            filling = "F"
+        elif self.radioButtonHalf.isChecked():
+            filling = "L"
+        elif self.radioButtonEmpty.isChecked():
+            filling = "E"
+
+        if self.radioButtonColor1.isChecked():
+            amount = "1"
+        elif self.radioButtonColor2.isChecked():
+            amount = "2"
+        elif self.radioButtonColor3.isChecked():
+            amount = "3"
+        image = QImage(f"SetCards/R{filling}{shape}{amount}.png")
+        image = image.convertToFormat(QImage.Format.Format_RGB32)
+        for i in range(image.width()):
+            for j in range(image.height()):
+                if image.pixelColor(i,j).black()==0:
+                    image.setPixelColor(i,j,QColor(color))
+        pixmap = QPixmap.fromImage(image)
+        
+        
+        # self.gridLayoutCardOptions.addWidget(, 0,1,3,1)
+        # print(card.color)
+        # print(card.shape)
+        # print(card.filling)
+        # print(card.amount)
+        # print(card.location)
+        
+        
+        self.NewCard.setPixmap(pixmap)
+
     def showCard(self, card, grid_layout):
         self.addImage(grid_layout, f"SetCards/R{card.filling}{card.shape}{card.amount}.png", card.location.x, card.location.y, QColor(card.color))
 
@@ -331,10 +396,9 @@ class MyWindow(QWidget) :
         elif self.radioButtonColor3.isChecked():
             amount = "3"
 
-        location = Location(1, 1)  # Update with the desired location
-        card = Card(color, shape, filling, amount, location)
+        card = Card(color, shape, filling, amount, self.seletectedLocation)
         solver = SetSolver()
-        solver.removeCard(location)
+        solver.removeCard(self.seletectedLocation)
         solver.addCardAndSolve(card)
         self.showCard(card, self.grid_layout)
     
@@ -365,18 +429,31 @@ class MyWindow(QWidget) :
         print(position)
         x = position[0]
         y = position[1]
+        self.seletectedLocation = Location(x,y)
         card = self.solver.getCard(Location(x,y))
-        if card is not None:
-                # Creates and shows an image on the grid at x,y of file at filelocation with color color
-            # image = QImage(filelocation)
-            # image = image.convertToFormat(QImage.Format.Format_RGB32)
-            # for i in range(image.width()):
-            #     for j in range(image.height()):
-            #         if image.pixelColor(i,j).black()==0:
-            #             image.setPixelColor(i,j,color)
-            # pixmap = QPixmap.fromImage(image)
 
-            self.gridLayoutCardOptions.addWidget(self.frameCardOptions, 0, 1, 3, 1)
+        if card is not None:
+            #Creates and shows an image on the grid at x,y of file at filelocation with color color
+            image = QImage(f"SetCards/R{card.filling}{card.shape}{card.amount}.png")
+            image = image.convertToFormat(QImage.Format.Format_RGB32)
+            for i in range(image.width()):
+                for j in range(image.height()):
+                    if image.pixelColor(i,j).black()==0:
+                        image.setPixelColor(i,j,QColor(card.color))
+            pixmap = QPixmap.fromImage(image)
+            
+            
+            # self.gridLayoutCardOptions.addWidget(, 0,1,3,1)
+            # print(card.color)
+            # print(card.shape)
+            # print(card.filling)
+            # print(card.amount)
+            # print(card.location)
+            
+            
+            self.NewCard.setPixmap(pixmap)
+
+            # self.gridLayoutCardOptions.addWidget(NewCard, 0, 1, 1, 1)
         else:
             print(f"Card not found at location {x},{y}")
 
