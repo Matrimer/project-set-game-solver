@@ -59,10 +59,19 @@ class SetSolver():
     def addCardAndSolve(self,newCard):
         if(self.noDuplicates(newCard)):
             # Checks for sets with the new card and the cardlist then adds the card to the list
-            for i,firstCard in enumerate(self.cardList):
+            print("No duplicate card")
+        else:
+            print("Duplicate card")
+            dlg = QDialog()
+            dlg.setWindowTitle("Duplicate Card")
+            dlg.setGeometry(50, 200, 200, 100)
+            dlg.exec()
+        
+        for i,firstCard in enumerate(self.cardList):
                 for secondCard in self.cardList[i+1:]:
                     if self.isSet(firstCard,secondCard,newCard):
                         self.foundSets.append([newCard.location,firstCard.location,secondCard.location])
+
         self.cardList.append(newCard)
 
     def isSet(self,one, two, three):
@@ -120,12 +129,10 @@ class MyWindow(QWidget) :
 
 
         self.gridLayoutWidgetShape = QtWidgets.QWidget(self)
-
-
         self.gridLayoutWidgetShape.setGeometry(QtCore.QRect(450, 10, 700, 231))
-        self.gridLayoutWidgetShape.setObjectName("gridLayoutWidgetShape")
         self.gridLayoutCardOptions = QtWidgets.QGridLayout(self.gridLayoutWidgetShape)
         self.gridLayoutCardOptions.setObjectName("gridLayoutCardOptions")
+        self.gridLayoutWidgetShape.setObjectName("gridLayoutWidgetShape")
         self.frame_4 = QtWidgets.QFrame(self.gridLayoutWidgetShape)
         self.frame_4.setObjectName("frame_4")
         self.frame_4.setGeometry(QtCore.QRect(0, 0, 400, 200))
@@ -144,8 +151,6 @@ class MyWindow(QWidget) :
         newRadioButton("Wave", self.gridLayoutWidgetShape, self.horizontalLayoutCardOptions)
         newRadioButton("Oval", self.gridLayoutWidgetShape, self.horizontalLayoutCardOptions)
         newRadioButton("Diamond", self.gridLayoutWidgetShape, self.horizontalLayoutCardOptions)
-
-
 
         self.gridLayoutCardOptions.addWidget(self.frame_4, 1, 0, 1, 1)
         self.frameCardOptions = QtWidgets.QFrame(self.gridLayoutWidgetShape)
@@ -222,9 +227,6 @@ class MyWindow(QWidget) :
 
         self.setLayout(grid_layout)  # Set the layout for the main window
         self.grid_layout = grid_layout
-        # grid = QGridLayout()
-        # self.setLayout(grid)
-
         # Create the grid layout
 
 
@@ -236,14 +238,17 @@ class MyWindow(QWidget) :
                 # creates card based on i and j and random values and solves them and shows them
                 while(True):
                     location = Location(i,j)
-                    card = Card(random.choice(["purple","green","red"]),random.choice(["D","W","O"]),random.choice(["E","F","L"]),random.choice(["1","2","3"]),location)
-                    if (self.solver.noDuplicates(card)):
-                        self.solver.addCardAndSolve(card)
-                        self.showCard(card,self.grid_layout)
-                        break
+                    card = Card("E", "E", "E", "0", location)
+                    self.showCard(card, self.grid_layout)
+                    break
+
+
+                    # card = Card(random.choice(["Purple","Green","Red"]),random.choice(["D","W","O"]),random.choice(["E","F","L"]),random.choice(["1","2","3"]),location)
+                    # if (self.solver.noDuplicates(card)):
+                    #     self.solver.addCardAndSolve(card)
+                    #     self.showCard(card,self.grid_layout)
+                    #     break
         #Todo change name from set to something better because name set is python name
-        for set in self.solver.foundSets:
-            print(f"{set[0]} and {set[1]} and {set[2]}")
 
     def UpdateCard(self):
         # Updates the card in the card options widget
@@ -257,7 +262,7 @@ class MyWindow(QWidget) :
         elif self.radioButtonGreen.isChecked():
             color = "Green"
         elif self.radioButtonPurple.isChecked():
-            color = "Purple"
+            color = "Purple" 
 
         if self.radioButtonWave.isChecked():
             shape = "W"
@@ -287,8 +292,6 @@ class MyWindow(QWidget) :
                     image.setPixelColor(i,j,QColor(color))
         pixmap = QPixmap.fromImage(image)
 
-
-        # self.gridLayoutCardOptions.addWidget(, 0,1,3,1)
         # print(card.color)
         # print(card.shape)
         # print(card.filling)
@@ -341,6 +344,8 @@ class MyWindow(QWidget) :
         solver.removeCard(self.seletectedLocation)
         solver.addCardAndSolve(card)
         self.showCard(card, self.grid_layout)
+        for set in self.solver.foundSets:
+            print(f"{set[0]} and {set[1]} and {set[2]}")
 
     def addImage(self, grid_layout, filelocation,x,y,color):
         # Creates and shows an image on the grid at x,y of file at filelocation with color color
@@ -361,16 +366,44 @@ class MyWindow(QWidget) :
 
         # grid.addWidget(label, x, y)
     def buttonClicked(self):
-        select_grid = self.gridLayoutWidgetShape
         # Removes the clicked button from the grid
         button = self.sender()
-
         position = self.grid_layout.getItemPosition(self.grid_layout.indexOf(button))
         print(position)
+
         x = position[0]
         y = position[1]
         self.seletectedLocation = Location(x,y)
         card = self.solver.getCard(Location(x,y))
+        if card is not None:
+            if card.color == "Red":
+                self.radioButtonRed.setChecked(True)
+            elif card.color == "Green":
+                self.radioButtonGreen.setChecked(True)
+            elif card.color == "Purple":
+                self.radioButtonPurple.setChecked(True)
+            if card.shape == "W":
+                self.radioButtonWave.setChecked(True)
+            elif card.shape == "O":
+                self.radioButtonOval.setChecked(True)
+            elif card.shape == "D":
+                self.radioButtonDiamond.setChecked(True)
+            
+            if card.filling == "F":
+                self.radioButtonFull.setChecked(True)
+            elif card.filling == "L":
+                self.radioButtonHalf.setChecked(True)
+            elif card.filling == "E":
+                self.radioButtonEmpty.setChecked(True)
+            
+            if card.amount == "1":
+                self.radioButton1.setChecked(True)
+            elif card.amount == "2":
+                self.radioButton2.setChecked(True)
+            elif card.amount == "3":
+                self.radioButton3.setChecked(True)
+        else:
+            print(f"Card not found at location {x},{y}")
 
         if card is not None:
             #Creates and shows an image on the grid at x,y of file at filelocation with color color
@@ -406,24 +439,9 @@ class MyWindow(QWidget) :
 
 def window():
     app = QtWidgets.QApplication(sys.argv)
-    # MainWindow = QtWidgets.QMainWindow()
-    # ui = Ui_MainWindow()
-    # ui.setupUi(MainWindow)
-    # MainWindow.show()
-
     win = MyWindow()
     win.show()
-    # Old window
-
     sys.exit(app.exec())
 
 
 window()
-
-# app = QtWidgets.QApplication(sys.argv)
-# MainWindow = QtWidgets.QMainWindow()
-# ui = Ui_MainWindow()
-# ui.setupUi(MainWindow)
-# MainWindow.show()dow()
-# ui.setupUi(MainWindow)
-# MainWindow.show()
