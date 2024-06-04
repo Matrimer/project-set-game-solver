@@ -8,8 +8,31 @@ import sys
 
 from Designe_SetSolver import *
 
-WINHEIGHT = 400
 WINWIDTH = 1500
+WINHEIGHT = 400
+
+DIALOGWIDTH = 400
+DIALOGHEIGHT = 200
+
+
+class CustomDialog(QDialog):
+    def __init__(self):
+        super().__init__()
+
+        self.setWindowTitle("HELLO!")
+
+        QBtn = QDialogButtonBox.StandardButton.Ok | QDialogButtonBox.StandardButton.Cancel
+
+        self.buttonBox = QDialogButtonBox(QBtn)
+        self.buttonBox.accepted.connect(self.accept)
+        self.buttonBox.rejected.connect(self.reject)
+
+        self.layout = QVBoxLayout()
+        message = QLabel("You are adding a duplicate")
+        self.layout.addWidget(message)
+        self.layout.addWidget(self.buttonBox)
+        self.setLayout(self.layout)
+
 class Location():
     def __init__(self,x,y):
         self.x = x
@@ -49,30 +72,42 @@ class SetSolver():
         pass
 
 #go through the card list and see if newCard is a duplicate of any card in the card list
-    def noDuplicates(self, newCard):
+    def Duplicates(self, newCard):
         for card in self.cardList:
-            if(newCard==card):
-                return False
-        return True
+            if newCard == card:
+                return True
+        return False
 
 
     def addCardAndSolve(self,newCard):
-        if(self.noDuplicates(newCard)):
+        if(self.Duplicates(newCard)):
             # Checks for sets with the new card and the cardlist then adds the card to the list
-            print("No duplicate card")
-        else:
             print("Duplicate card")
-            dlg = QDialog()
-            dlg.setWindowTitle("Duplicate Card")
-            dlg.setGeometry(50, 200, 200, 100)
-            dlg.exec()
-        
-        for i,firstCard in enumerate(self.cardList):
+
+            dlg = CustomDialog()
+            if dlg.exec():
+                print("Duplicate added")
+
+                for i,firstCard in enumerate(self.cardList):
+                    for secondCard in self.cardList[i+1:]:
+                        if self.isSet(firstCard,secondCard,newCard):
+                            self.foundSets.append([newCard.location,firstCard.location,secondCard.location])
+
+                self.cardList.append(newCard)
+
+            else:
+                print("Duplicate canceled")
+
+        else:
+            for i,firstCard in enumerate(self.cardList):
                 for secondCard in self.cardList[i+1:]:
                     if self.isSet(firstCard,secondCard,newCard):
                         self.foundSets.append([newCard.location,firstCard.location,secondCard.location])
 
-        self.cardList.append(newCard)
+            self.cardList.append(newCard)
+            
+        
+        
 
     def isSet(self,one, two, three):
         # Loops over the fields/atributes of one whitch is an instance of a card
