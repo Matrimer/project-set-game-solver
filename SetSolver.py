@@ -44,6 +44,7 @@ class Card():
 
 class SetSolver():
     cardList = []
+    foundSetLocations = []
     foundSets = []
     def __init__(self):
         pass
@@ -63,7 +64,8 @@ class SetSolver():
                 for secondCard in self.cardList[i+1:]:
                     if self.isSet(firstCard,secondCard,newCard):
                         print("hoezee!")
-                        self.foundSets.append([newCard.location,firstCard.location,secondCard.location])
+                        self.foundSetLocations.append([newCard.location,firstCard.location,secondCard.location])
+                        self.foundSets.append([newCard,firstCard,secondCard])
         self.cardList.append(newCard)
 
     def isSet(self,one, two, three):
@@ -89,8 +91,8 @@ class SetSolver():
         card = self.getCard(location)
         if card is not None:
             self.cardList.remove(card)
-            # Remove sets with the specified card from foundSets
-            self.foundSets = [s for s in self.foundSets if location not in s[:3]]
+            # Remove sets with the specified card from foundSetLocations
+            self.foundSetLocations = [s for s in self.foundSetLocations if location not in s[:3]]
 
             print("hihi")
 
@@ -126,7 +128,6 @@ class MyWindow(QWidget) :
 
 
         self.gridLayoutWidgetShape = QtWidgets.QWidget(self)
-
 
         self.gridLayoutWidgetShape.setGeometry(QtCore.QRect(450, 10, 700, 231))
         self.gridLayoutWidgetShape.setObjectName("gridLayoutWidgetShape")
@@ -228,11 +229,24 @@ class MyWindow(QWidget) :
 
         self.setLayout(grid_layout)  # Set the layout for the main window
         self.grid_layout = grid_layout
-        # grid = QGridLayout()
-        # self.setLayout(grid)
+        
+        # make a invisible box for showing the sets
+        
+        self.setLayoutWidgetShape = QtWidgets.QWidget(self)
 
-        # Create the grid layout
-
+        self.setLayoutWidgetShape.setGeometry(QtCore.QRect(655, 290, 700, 231))
+        self.setLayoutWidgetShape.setObjectName("setLayoutWidgetShape")
+        self.setLayoutCardOptions = QtWidgets.QGridLayout(self.setLayoutWidgetShape)
+        self.setLayoutCardOptions.setObjectName("setLayoutCardOptions")
+        self.frame_4 = QtWidgets.QFrame(self.setLayoutWidgetShape)
+        self.frame_4.setObjectName("frame_4")
+        self.frame_4.setGeometry(QtCore.QRect(0, 0, 400, 200))
+        self.horizontalLayoutWidgetCardOptions = QtWidgets.QWidget(self.frame_4)
+        self.horizontalLayoutWidgetCardOptions.setGeometry(QtCore.QRect(0, 0, 300, 26))
+        self.horizontalLayoutWidgetCardOptions.setObjectName("horizontalLayoutWidgetCardOptions")
+        self.horizontalLayoutCardOptions = QtWidgets.QHBoxLayout(self.horizontalLayoutWidgetCardOptions)
+        self.horizontalLayoutCardOptions.setContentsMargins(10, 0, 0, 0)
+        self.horizontalLayoutCardOptions.setObjectName("horizontalLayoutCardOptions")
 
         # makes a 3 by 4 grid with random cards
         self.solver = SetSolver()
@@ -248,7 +262,7 @@ class MyWindow(QWidget) :
                         self.showCard(card,self.grid_layout) #This works
                         break
         #print found set locations to console
-        for foundset in self.solver.foundSets:
+        for foundset in self.solver.foundSetLocations:
             print(f"{foundset[0]} and {foundset[1]} and {foundset[2]}")
 
     def UpdateCard(self):
@@ -343,12 +357,12 @@ class MyWindow(QWidget) :
             amount = "3"
 
         card = Card(color, shape, filling, amount, self.selectedLocation)
-        #solver = SetSolver()
         self.solver.removeCard(self.selectedLocation)
         self.solver.addCardAndSolve(card)
-        for foundset in self.solver.foundSets:
+        for foundset in self.solver.foundSetLocations:
             print(f"{foundset[0]} and {foundset[1]} and {foundset[2]}")
         self.showCard(card, self.grid_layout)
+        self.showFoundSet(self.solver.foundSets)
 
     def addImage(self, grid_layout, filelocation,x,y,color):
         # Creates and shows an image on the grid at x,y of file at filelocation with color color
@@ -366,6 +380,13 @@ class MyWindow(QWidget) :
         # print(type(grid_layout))
         grid_layout.addWidget(button, x, y)
         # Remove widget at x, y from grid_layout
+
+    def showFoundSet(self, foundSets):
+        for i in range (0,2):
+            #location = Location(0,i);
+            self.showCard(foundSets[0][i],self.setLayoutCardOptions)
+        # card = Card(random.choice(["purple","green","red"]),random.choice(["D","W","O"]),random.choice(["E","F","L"]),random.choice(["1","2","3"]),location)
+        
 
         # grid.addWidget(label, x, y)
     def buttonClicked(self):
