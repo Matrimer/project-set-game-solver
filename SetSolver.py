@@ -62,6 +62,7 @@ class SetSolver():
             for i,firstCard in enumerate(self.cardList):
                 for secondCard in self.cardList[i+1:]:
                     if self.isSet(firstCard,secondCard,newCard):
+                        print("hoezee!")
                         self.foundSets.append([newCard.location,firstCard.location,secondCard.location])
         self.cardList.append(newCard)
 
@@ -84,9 +85,14 @@ class SetSolver():
         return None
     def removeCard(self,location):
         # Removes a card from the cardlist based on the location
+        print("haha")
         card = self.getCard(location)
         if card is not None:
             self.cardList.remove(card)
+            # Remove sets with the specified card from foundSets
+            self.foundSets = [s for s in self.foundSets if location not in s[:3]]
+
+            print("hihi")
 
 class MyWindow(QWidget) :
     def __init__(self, *args, **kwargs):
@@ -239,11 +245,11 @@ class MyWindow(QWidget) :
                     card = Card(random.choice(["purple","green","red"]),random.choice(["D","W","O"]),random.choice(["E","F","L"]),random.choice(["1","2","3"]),location)
                     if (self.solver.noDuplicates(card)):
                         self.solver.addCardAndSolve(card)
-                        self.showCard(card,self.grid_layout)
+                        self.showCard(card,self.grid_layout) #This works
                         break
-        #Todo change name from set to something better because name set is python name
-        for set in self.solver.foundSets:
-            print(f"{set[0]} and {set[1]} and {set[2]}")
+        #print found set locations to console
+        for foundset in self.solver.foundSets:
+            print(f"{foundset[0]} and {foundset[1]} and {foundset[2]}")
 
     def UpdateCard(self):
         # Updates the card in the card options widget
@@ -336,10 +342,12 @@ class MyWindow(QWidget) :
         elif self.radioButton3.isChecked():
             amount = "3"
 
-        card = Card(color, shape, filling, amount, self.seletectedLocation)
-        solver = SetSolver()
-        solver.removeCard(self.seletectedLocation)
-        solver.addCardAndSolve(card)
+        card = Card(color, shape, filling, amount, self.selectedLocation)
+        #solver = SetSolver()
+        self.solver.removeCard(self.selectedLocation)
+        self.solver.addCardAndSolve(card)
+        for foundset in self.solver.foundSets:
+            print(f"{foundset[0]} and {foundset[1]} and {foundset[2]}")
         self.showCard(card, self.grid_layout)
 
     def addImage(self, grid_layout, filelocation,x,y,color):
@@ -369,7 +377,7 @@ class MyWindow(QWidget) :
         print(position)
         x = position[0]
         y = position[1]
-        self.seletectedLocation = Location(x,y)
+        self.selectedLocation = Location(x,y)
         card = self.solver.getCard(Location(x,y))
 
         if card is not None:
