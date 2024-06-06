@@ -122,6 +122,15 @@ class SetSolver():
         card = self.getCard(location)
         if card is not None:
             self.cardList.remove(card)
+            for s in self.foundSets:
+                if location in s:
+                    self.foundSets.remove(s)
+    
+    def clearAll(self):
+        # Clears the cardlist and the found sets
+        self.cardList.clear()
+        self.foundSets.clear()
+
         
 
 class MyWindow(QWidget) :
@@ -242,6 +251,7 @@ class MyWindow(QWidget) :
         self.NewCard.setObjectName("NewCard")
         self.NewCard.setText("Image of user generated card")
         self.gridLayoutCardOptions.addWidget(self.NewCard, 0, 1, 3, 1)
+
         self.AddCardButton = QtWidgets.QPushButton(self.gridLayoutWidgetShape)
         self.AddCardButton.setObjectName("AddCardButton")
         self.AddCardButton.setText("Add Card")
@@ -254,6 +264,12 @@ class MyWindow(QWidget) :
         self.gridLayoutCardOptions.addWidget(self.DeleteCardButton, 2, 1, 3, 1)
         self.DeleteCardButton.clicked.connect(self.DeleteCard)
 
+        self.WipeDeckButton = QtWidgets.QPushButton(self.gridLayoutWidgetShape)
+        self.WipeDeckButton.setObjectName("WipeDeckButton")
+        self.WipeDeckButton.setText("Wipe Deck")
+        self.gridLayoutCardOptions.addWidget(self.WipeDeckButton, 3, 1, 3, 1)
+        self.WipeDeckButton.clicked.connect(self.wipeDeck)
+
 
 
         grid_layout.addWidget(self.gridLayoutWidgetShape, 0, 15, 3, 4)  # Add the card options widget to the main layout and set its position to 2x2
@@ -263,9 +279,11 @@ class MyWindow(QWidget) :
         # Create the grid layout
 
 
-        # makes a 3 by 4 grid with random cards
         self.solver = SetSolver()
+        self.reset()
 
+
+    def reset(self):
         for i in range(4):
             for j in range(3):
                 # creates card based on i and j and random values and solves them and shows them
@@ -317,6 +335,7 @@ class MyWindow(QWidget) :
             amount = "2"
         elif self.radioButton3.isChecked():
             amount = "3"
+
         image = QImage(f"SetCards/R{filling}{shape}{amount}.png")
         image = image.convertToFormat(QImage.Format.Format_RGB32)
         for i in range(image.width()):
@@ -374,15 +393,16 @@ class MyWindow(QWidget) :
         elif self.radioButton3.isChecked():
             amount = "3"
 
-        card = Card(color, shape, filling, amount, self.seletectedLocation)
+        card = Card(color, shape, filling, amount, self.selectedLocation)
         solver = SetSolver()
-        solver.removeCard(self.seletectedLocation)
+        solver.removeCard(self.selectedLocation)
 
         if solver.addCardAndSolve(card):
             self.showCard(card, self.grid_layout)
 
         for set in self.solver.foundSets:
             print(f"{set[0]} and {set[1]} and {set[2]}")
+            MyWindow.showSets(self)
 
     def addImage(self, grid_layout, filelocation,x,y,color):
         # Creates and shows an image on the grid at x,y of file at filelocation with color color
@@ -403,11 +423,6 @@ class MyWindow(QWidget) :
 
         # grid.addWidget(label, x, y)
 
-    def removeImage(grid_layout, x, y):
-        # Removes the image on the grid at x,y
-        
-        print("removed Image")
-
 
     def buttonClicked(self):
         # Removes the clicked button from the grid
@@ -417,7 +432,7 @@ class MyWindow(QWidget) :
 
         x = position[0]
         y = position[1]
-        self.seletectedLocation = Location(x,y)
+        self.selectedLocation = Location(x,y)
         card = self.solver.getCard(Location(x,y))
         if card is not None:
 
@@ -480,7 +495,6 @@ class MyWindow(QWidget) :
             print(f"Card not found at location {x},{y}")
             self.DeleteCardButton.hide()  # Hide the DeleteCardButton if card is None\
 
-           
             self.radioButtonRed.setChecked(True)
             self.radioButtonGreen.setChecked(False)
             self.radioButtonPurple.setChecked(False)
@@ -503,12 +517,47 @@ class MyWindow(QWidget) :
 
     def DeleteCard(self):
         # Removes the clicked card from the UI and the solver
-        selectedLocation = self.seletectedLocation
+        selectedLocation = self.selectedLocation
         print(selectedLocation)
         self.solver.removeCard(selectedLocation)
-        self.removeImage(self.grid_layout, selectedLocation.x, selectedLocation.y)
+        self.addImage(self.grid_layout, "SetCards/REE0.png", selectedLocation.x, selectedLocation.y, QColor("white"))
+
         print(f"Deleted card at location {selectedLocation}")
     
+    def wipeDeck(self):
+        # Clears the deck
+        self.solver.clearAll()
+        for i in range(4):
+            for j in range(3):
+                self.addImage(self.grid_layout, "SetCards/REE0.png", i, j, QColor("white"))
+        self.update()
+
+    def showSets(self):
+        painter = QPainter(self)
+        setPen = QPen(Qt.GlobalColor.red)
+        painter.setPen(setPen)  # Set the pen color to red
+
+
+        for set in self.solver.foundSets:
+            card1 = set[0]
+            card2 = set[1]
+            card3 = set[2]
+
+            # center1 = QPoint(card1.location.x, card1.location.y)
+            print(card1)
+            print(card2)
+            print(card3)
+           
+            # center1 = 
+            # center2 = 
+            # center3 = 
+
+            # Draw lines between the center points of the cards
+            # painter.drawLine(center1, center2)
+            # painter.drawLine(center2, center3)
+            # painter.drawLine(center3, center1)
+
+        painter.end()
 
     def update(self):
         self.label.adjustSize()
