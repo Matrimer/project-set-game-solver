@@ -11,7 +11,7 @@ from Designe_SetSolver import *
 WINWIDTH = 1500
 WINHEIGHT = 400
 
-DIALOGWIDTH = 400
+DIALOGWIDTH = 900
 DIALOGHEIGHT = 200
 
 
@@ -19,7 +19,7 @@ class CustomDialog(QDialog):
     def __init__(self):
         super().__init__()
 
-        self.setWindowTitle("HELLO!")
+        self.setWindowTitle("Duplicate card")
 
         QBtn = QDialogButtonBox.StandardButton.Ok | QDialogButtonBox.StandardButton.Cancel
 
@@ -85,26 +85,17 @@ class SetSolver():
             print("Duplicate card")
 
             dlg = CustomDialog()
-            if dlg.exec():
-                print("Duplicate added")
-
-                for i,firstCard in enumerate(self.cardList):
-                    for secondCard in self.cardList[i+1:]:
-                        if self.isSet(firstCard,secondCard,newCard):
-                            self.foundSets.append([newCard.location,firstCard.location,secondCard.location])
-
-                self.cardList.append(newCard)
-
-            else:
+            if not (dlg.exec()):
                 print("Duplicate canceled")
+                return False
 
-        else:
-            for i,firstCard in enumerate(self.cardList):
-                for secondCard in self.cardList[i+1:]:
-                    if self.isSet(firstCard,secondCard,newCard):
-                        self.foundSets.append([newCard.location,firstCard.location,secondCard.location])
+        for i,firstCard in enumerate(self.cardList):
+            for secondCard in self.cardList[i+1:]:
+                if self.isSet(firstCard,secondCard,newCard):
+                    self.foundSets.append([newCard.location,firstCard.location,secondCard.location])
 
-            self.cardList.append(newCard)
+        self.cardList.append(newCard)
+        return True
             
         
         
@@ -131,6 +122,7 @@ class SetSolver():
         card = self.getCard(location)
         if card is not None:
             self.cardList.remove(card)
+        
 
 class MyWindow(QWidget) :
     def __init__(self, *args, **kwargs):
@@ -254,7 +246,13 @@ class MyWindow(QWidget) :
         self.AddCardButton.setObjectName("AddCardButton")
         self.AddCardButton.setText("Add Card")
         self.gridLayoutCardOptions.addWidget(self.AddCardButton, 1, 1, 3, 1)
-        self.AddCardButton.clicked.connect(self.ChangeCard)  # Connect the clicked signal of the AddCardButton to the addCard method
+        self.AddCardButton.clicked.connect(self.ChangeCard)  # Connect the clicked signal of the AddCardButton to the ChangeCard method
+
+        self.DeleteCardButton = QtWidgets.QPushButton(self.gridLayoutWidgetShape)
+        self.DeleteCardButton.setObjectName("DeleteCardButton")
+        self.DeleteCardButton.setText("Delete Card")
+        self.gridLayoutCardOptions.addWidget(self.DeleteCardButton, 2, 1, 3, 1)
+        self.DeleteCardButton.clicked.connect(self.DeleteCard)
 
 
 
@@ -339,6 +337,8 @@ class MyWindow(QWidget) :
     def showCard(self, card, grid_layout):
         self.addImage(grid_layout, f"SetCards/R{card.filling}{card.shape}{card.amount}.png", card.location.x, card.location.y, QColor(card.color))
 
+
+
     def ChangeCard(self):
         # Adds a card to the UI based on the selected options
         color = ""
@@ -377,8 +377,10 @@ class MyWindow(QWidget) :
         card = Card(color, shape, filling, amount, self.seletectedLocation)
         solver = SetSolver()
         solver.removeCard(self.seletectedLocation)
-        solver.addCardAndSolve(card)
-        self.showCard(card, self.grid_layout)
+
+        if solver.addCardAndSolve(card):
+            self.showCard(card, self.grid_layout)
+
         for set in self.solver.foundSets:
             print(f"{set[0]} and {set[1]} and {set[2]}")
 
@@ -400,6 +402,13 @@ class MyWindow(QWidget) :
         # Remove widget at x, y from grid_layout
 
         # grid.addWidget(label, x, y)
+
+    def removeImage(grid_layout, x, y):
+        # Removes the image on the grid at x,y
+        
+        print("removed Image")
+
+
     def buttonClicked(self):
         # Removes the clicked button from the grid
         button = self.sender()
@@ -411,12 +420,16 @@ class MyWindow(QWidget) :
         self.seletectedLocation = Location(x,y)
         card = self.solver.getCard(Location(x,y))
         if card is not None:
+
+            self.DeleteCardButton.show()
+
             if card.color == "Red":
                 self.radioButtonRed.setChecked(True)
             elif card.color == "Green":
                 self.radioButtonGreen.setChecked(True)
             elif card.color == "Purple":
                 self.radioButtonPurple.setChecked(True)
+
             if card.shape == "W":
                 self.radioButtonWave.setChecked(True)
             elif card.shape == "O":
@@ -437,10 +450,8 @@ class MyWindow(QWidget) :
                 self.radioButton2.setChecked(True)
             elif card.amount == "3":
                 self.radioButton3.setChecked(True)
-        else:
-            print(f"Card not found at location {x},{y}")
 
-        if card is not None:
+
             #Creates and shows an image on the grid at x,y of file at filelocation with color color
             image = QImage(f"SetCards/R{card.filling}{card.shape}{card.amount}.png")
             image = image.convertToFormat(QImage.Format.Format_RGB32)
@@ -462,10 +473,42 @@ class MyWindow(QWidget) :
             self.NewCard.setPixmap(pixmap)
 
             # self.gridLayoutCardOptions.addWidget(NewCard, 0, 1, 1, 1)
+
+              # Connect the clicked signal of the DeleteCardButton to the DeleteCard method
+
         else:
             print(f"Card not found at location {x},{y}")
+            self.DeleteCardButton.hide()  # Hide the DeleteCardButton if card is None\
+
+           
+            self.radioButtonRed.setChecked(True)
+            self.radioButtonGreen.setChecked(False)
+            self.radioButtonPurple.setChecked(False)
+            
+            self.radioButtonWave.setChecked(True)
+            self.radioButtonOval.setChecked(False)
+            self.radioButtonDiamond.setChecked(False)
+        
+            self.radioButtonFull.setChecked(True)
+            self.radioButtonHalf.setChecked(False)
+            self.radioButtonEmpty.setChecked(False)
+        
+            self.radioButton1.setChecked(True)
+            self.radioButton2.setChecked(False)
+            self.radioButton3.setChecked(False)
+            
 
         self.update()
+
+
+    def DeleteCard(self):
+        # Removes the clicked card from the UI and the solver
+        selectedLocation = self.seletectedLocation
+        print(selectedLocation)
+        self.solver.removeCard(selectedLocation)
+        self.removeImage(self.grid_layout, selectedLocation.x, selectedLocation.y)
+        print(f"Deleted card at location {selectedLocation}")
+    
 
     def update(self):
         self.label.adjustSize()
