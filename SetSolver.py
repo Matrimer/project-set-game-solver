@@ -86,7 +86,8 @@ class SetSolver():
     def __init__(self):
         pass
 
-    # go through the card list and see if newCard is a duplicate of any card in the card list
+    # go through the card list
+    # and see if newCard is a duplicate of any card in the card list
     def Duplicates(self, newCard):
         for card in self.cardList:
             if newCard == card:
@@ -108,7 +109,8 @@ class SetSolver():
         for i,firstCard in enumerate(self.cardList):
             for secondCard in self.cardList[i+1:]:
                 if self.isSet(firstCard,secondCard,newCard):
-                    self.foundSets.append([newCard.location,firstCard.location,secondCard.location])
+                    self.foundSets.append([
+                        newCard.location,firstCard.location,secondCard.location])
 
         self.cardList.append(newCard)
         return True
@@ -122,7 +124,7 @@ class SetSolver():
         for attribute, value in one.__dict__.items():
             # compares cards based on the their atributes
             if getattr(one, attribute) != getattr(two, attribute):
-                if getattr(three, attribute) in (getattr(one, attribute) , getattr(two, attribute)):
+                if getattr(three, attribute) in (getattr(one, attribute), getattr(two, attribute)):
                     return False
             elif getattr(one, attribute) != getattr(three, attribute):
                 return False
@@ -323,14 +325,14 @@ class MyWindow(QWidget) :
                     #     self.showCard(card,self.grid_layout)
                     #     break
         #Todo change name from set to something better because name set is python name
-
-    # Update the card in the card options widget
     def UpdateCard(self):
+        # Updates the card in the card options widget
         color = ""
         shape = ""
         filling = ""
         amount = ""
 
+        # Check radioButtons
         if self.radioButtonRed.isChecked():
             color = "Red"
         elif self.radioButtonGreen.isChecked():
@@ -359,30 +361,27 @@ class MyWindow(QWidget) :
         elif self.radioButton3.isChecked():
             amount = "3"
 
+        # Load image based on radioButtons
         image = QImage(f"SetCards/R{filling}{shape}{amount}.png")
         image = image.convertToFormat(QImage.Format.Format_RGB32)
+        # Fill in the right color
         for i in range(image.width()):
             for j in range(image.height()):
                 if image.pixelColor(i,j).black()==0:
                     image.setPixelColor(i,j,QColor(color))
         pixmap = QPixmap.fromImage(image)
 
-        # print(card.color)
-        # print(card.shape)
-        # print(card.filling)
-        # print(card.amount)
-        # print(card.location)
-
-
         self.NewCard.setPixmap(pixmap)
 
+    # showCard draws the image of a card onto the location of the card on the grid_layout
     def showCard(self, card, grid_layout):
-        self.addImage(grid_layout, f"SetCards/R{card.filling}{card.shape}{card.amount}.png", card.location.x, card.location.y, QColor(card.color))
+        self.addImage(grid_layout, f"SetCards/R{card.filling}{card.shape}{card.amount}.png",
+                      card.location.x, card.location.y, QColor(card.color))
 
 
 
+    # Adds a card to the UI based on the selected options
     def ChangeCard(self):
-        # Adds a card to the UI based on the selected options
         color = ""
         shape = ""
         filling = ""
@@ -427,8 +426,8 @@ class MyWindow(QWidget) :
             print(f"{set[0]} and {set[1]} and {set[2]}")
             MyWindow.showSets(self)
 
+    # Creates and shows an image on the grid at x,y of file at filelocation with color color
     def addImage(self, grid_layout, filelocation,x,y,color):
-        # Creates and shows an image on the grid at x,y of file at filelocation with color color
         image = QImage(filelocation)
         image = image.convertToFormat(QImage.Format.Format_RGB32)
         for i in range(image.width()):
