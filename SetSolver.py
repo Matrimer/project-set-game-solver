@@ -276,9 +276,10 @@ class MyWindow(QWidget) :
         newRadioButton("Half", self.horizontalLayoutWidget_5, self.horizontalLayout_5)
         newRadioButton("Empty", self.horizontalLayoutWidget_5, self.horizontalLayout_5)
 
+        # Create row for buttons
+        self.gridLayoutCardOptions.addWidget(self.frame_7, 3, 0, 1, 1)
 
         # NewCard Button
-        self.gridLayoutCardOptions.addWidget(self.frame_7, 3, 0, 1, 1)
         self.NewCard = QtWidgets.QLabel(self.gridLayoutWidgetShape)
         self.NewCard.setObjectName("NewCard")
         self.NewCard.setText("Image of user generated card")
@@ -297,6 +298,7 @@ class MyWindow(QWidget) :
         self.DeleteCardButton.setObjectName("DeleteCardButton")
         self.DeleteCardButton.setText("Delete Card")
         self.gridLayoutCardOptions.addWidget(self.DeleteCardButton, 2, 1, 3, 1)
+        # Connect the clicked signal of the DeleteCardButton to the DeleteCard method
         self.DeleteCardButton.clicked.connect(self.DeleteCard)
 
         # WipeDeck Button
@@ -304,6 +306,7 @@ class MyWindow(QWidget) :
         self.WipeDeckButton.setObjectName("WipeDeckButton")
         self.WipeDeckButton.setText("Wipe Deck")
         self.gridLayoutCardOptions.addWidget(self.WipeDeckButton, 3, 1, 3, 1)
+        # Connect the clicked signal of the WipeDeckButton to the wipeDeck method
         self.WipeDeckButton.clicked.connect(self.wipeDeck)
 
 
