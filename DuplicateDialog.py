@@ -1,5 +1,3 @@
-from PyQt6 import QtWidgets
-from PyQt6.QtCore import Qt, QPoint
 from PyQt6.QtWidgets import *
 from PyQt6.QtGui import *
 

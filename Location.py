@@ -1,6 +1,3 @@
-from PyQt6.QtWidgets import *
-from PyQt6.QtGui import *
-
 class Location():
     def __init__(self,x,y):
         self.x = x

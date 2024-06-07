@@ -1,5 +1,5 @@
 from PyQt6 import QtWidgets, QtCore
-from PyQt6.QtCore import Qt, QPoint
+from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import *
 from PyQt6.QtGui import *
 
@@ -45,8 +45,6 @@ class MyWindow(QWidget) :
         # Set the layout for the main window
         self.setLayout(grid_layout)
 
-
-
         self.gridLayoutWidgetShape = QtWidgets.QWidget(self)
         self.gridLayoutWidgetShape.setGeometry(QtCore.QRect(450, 10, 700, 231))
         self.gridLayoutCardOptions = QtWidgets.QGridLayout(self.gridLayoutWidgetShape)
@@ -65,7 +63,6 @@ class MyWindow(QWidget) :
         self.labelShape.setObjectName("labelShape")
         self.labelShape.setText("Shape:")
         self.horizontalLayoutCardOptions.addWidget(self.labelShape)
-
 
         newRadioButton("Wave", self.gridLayoutWidgetShape, self.horizontalLayoutCardOptions)
         newRadioButton("Oval", self.gridLayoutWidgetShape, self.horizontalLayoutCardOptions)
@@ -152,8 +149,6 @@ class MyWindow(QWidget) :
         self.WipeDeckButton.setText("Wipe Deck")
         self.gridLayoutCardOptions.addWidget(self.WipeDeckButton, 3, 2, 3, 1)
         self.WipeDeckButton.clicked.connect(self.wipeDeck)
-
-
 
         grid_layout.addWidget(self.gridLayoutWidgetShape, 0, 15, 3, 4)  # Add the card options widget to the main layout and set its position to 2x2
 
