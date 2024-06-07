@@ -80,6 +80,7 @@ class Card():
 
 
 # SetSolver class:
+# Handless all logic
 class SetSolver():
     cardList = []
     foundSets = []
@@ -149,8 +150,8 @@ class SetSolver():
         self.cardList.clear()
         self.foundSets.clear()
 
-
-
+# MyWindow class:
+# Create the layout and create and draw GUI elements
 class MyWindow(QWidget) :
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -271,12 +272,15 @@ class MyWindow(QWidget) :
         newRadioButton("Half", self.horizontalLayoutWidget_5, self.horizontalLayout_5)
         newRadioButton("Empty", self.horizontalLayoutWidget_5, self.horizontalLayout_5)
 
+
+        # NewCard Button
         self.gridLayoutCardOptions.addWidget(self.frame_7, 3, 0, 1, 1)
         self.NewCard = QtWidgets.QLabel(self.gridLayoutWidgetShape)
         self.NewCard.setObjectName("NewCard")
         self.NewCard.setText("Image of user generated card")
         self.gridLayoutCardOptions.addWidget(self.NewCard, 0, 1, 3, 1)
 
+        # AddCard Button
         self.AddCardButton = QtWidgets.QPushButton(self.gridLayoutWidgetShape)
         self.AddCardButton.setObjectName("AddCardButton")
         self.AddCardButton.setText("Add Card")
@@ -284,12 +288,14 @@ class MyWindow(QWidget) :
         # Connect the clicked signal of the AddCardButton to the ChangeCard method
         self.AddCardButton.clicked.connect(self.ChangeCard)
 
+        # DeleteCard Button
         self.DeleteCardButton = QtWidgets.QPushButton(self.gridLayoutWidgetShape)
         self.DeleteCardButton.setObjectName("DeleteCardButton")
         self.DeleteCardButton.setText("Delete Card")
         self.gridLayoutCardOptions.addWidget(self.DeleteCardButton, 2, 1, 3, 1)
         self.DeleteCardButton.clicked.connect(self.DeleteCard)
 
+        # WipeDeck Button
         self.WipeDeckButton = QtWidgets.QPushButton(self.gridLayoutWidgetShape)
         self.WipeDeckButton.setObjectName("WipeDeckButton")
         self.WipeDeckButton.setText("Wipe Deck")
@@ -325,8 +331,9 @@ class MyWindow(QWidget) :
                     #     self.showCard(card,self.grid_layout)
                     #     break
         #Todo change name from set to something better because name set is python name
+
+   # Updates the card in the card options widget
     def UpdateCard(self):
-        # Updates the card in the card options widget
         color = ""
         shape = ""
         filling = ""
@@ -387,6 +394,7 @@ class MyWindow(QWidget) :
         filling = ""
         amount = ""
 
+        # Check radioButtons
         if self.radioButtonRed.isChecked():
             color = "Red"
         elif self.radioButtonGreen.isChecked():
