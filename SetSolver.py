@@ -12,12 +12,6 @@ from Designe_SetSolver import *
 WINWIDTH = 1500
 WINHEIGHT = 400
 
-# UNUSED:
-# Set default dimensions for dialog window
-#DIALOGWIDTH = 900
-#DIALOGHEIGHT = 200
-
-
 # Dialog for notifying user if a duplicate card is being created
 class duplicateDialog(QDialog):
     def __init__(self):
@@ -121,7 +115,6 @@ class SetSolver():
 
     def isSet(self,one, two, three):
         # Loops over the fields/atributes of one whitch is an instance of a card
-        # Not clean
         for attribute, value in one.__dict__.items():
             # compares cards based on the their atributes
             if getattr(one, attribute) != getattr(two, attribute):
@@ -331,15 +324,7 @@ class MyWindow(QWidget) :
                     self.showCard(card, self.grid_layout)
                     break
 
-
-                    # card = Card(random.choice(["Purple","Green","Red"]),random.choice(["D","W","O"]),random.choice(["E","F","L"]),random.choice(["1","2","3"]),location)
-                    # if (self.solver.noDuplicates(card)):
-                    #     self.solver.addCardAndSolve(card)
-                    #     self.showCard(card,self.grid_layout)
-                    #     break
-        #Todo change name from set to something better because name set is python name
-
-   # Updates the card in the card options widget
+    # Updates the card in the card options widget
     def UpdateCard(self):
         color = ""
         shape = ""
@@ -454,15 +439,10 @@ class MyWindow(QWidget) :
         button.setIcon(QIcon(pixmap))
         button.setIconSize(pixmap.size())
         button.clicked.connect(self.buttonClicked)
-        # print(type(grid_layout))
         grid_layout.addWidget(button, x, y)
-        # Remove widget at x, y from grid_layout
-
-        # grid.addWidget(label, x, y)
-
 
     def buttonClicked(self):
-        # Removes the clicked button from the grid
+        # Remove the clicked button from the grid
         button = self.sender()
         position = self.grid_layout.getItemPosition(self.grid_layout.indexOf(button))
         pixel_position = button.pos()
@@ -472,8 +452,8 @@ class MyWindow(QWidget) :
         y = position[1]
         self.selectedLocation = Location(x,y)
         card = self.solver.getCard(Location(x,y))
-        if card is not None:
 
+        if card is not None:
             self.DeleteCardButton.show()
 
             if card.color == "Red":
@@ -514,20 +494,7 @@ class MyWindow(QWidget) :
                         image.setPixelColor(i,j,QColor(card.color))
             pixmap = QPixmap.fromImage(image)
 
-
-            # self.gridLayoutCardOptions.addWidget(, 0,1,3,1)
-            # print(card.color)
-            # print(card.shape)
-            # print(card.filling)
-            # print(card.amount)
-            # print(card.location)
-
-
             self.NewCard.setPixmap(pixmap)
-
-            # self.gridLayoutCardOptions.addWidget(NewCard, 0, 1, 1, 1)
-
-              # Connect the clicked signal of the DeleteCardButton to the DeleteCard method
 
         else:
             print(f"Card not found at location {x},{y}")
@@ -549,12 +516,11 @@ class MyWindow(QWidget) :
             self.radioButton2.setChecked(False)
             self.radioButton3.setChecked(False)
 
-
         self.update()
 
 
+    # Remove the clicked card from the UI and the solver
     def DeleteCard(self):
-        # Removes the clicked card from the UI and the solver
         selectedLocation = self.selectedLocation
         print(selectedLocation)
         self.solver.removeCard(selectedLocation)
@@ -562,14 +528,16 @@ class MyWindow(QWidget) :
 
         print(f"Deleted card at location {selectedLocation}")
 
+    # Clear the deck
     def wipeDeck(self):
-        # Clears the deck
         self.solver.clearAll()
         for i in range(4):
             for j in range(3):
                 self.addImage(self.grid_layout, "SetCards/REE0.png", i, j, QColor("white"))
         self.update()
 
+    # Display the sets that have been found,
+    # And draw lines across the cards that make these sets
     def showSets(self):
         for set in self.solver.foundSets:
             card1 = set[0]
@@ -589,10 +557,6 @@ class MyWindow(QWidget) :
         print(card1)
         print(card2)
         print(card3)
-
-
-    def paintEvent(self, event):
-        self.drawLines()
 
 
     def drawLines(self):
