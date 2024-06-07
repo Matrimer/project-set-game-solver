@@ -567,15 +567,13 @@ class MyWindow(QWidget) :
     def firstEmptyCardSlot(self):
         for x in range(4):
             for y in range(3):
-                print(self.solver.getCard(Location(x,y)))
-                print(Location(x,y))
+                # print(self.solver.getCard(Location(x,y)))
+                # print(Location(x,y))
+                print(self.selectedLocation)
                 if(self.solver.getCard(Location(x,y)) is None):
                     self.selectedLocation = Location(x,y)
-
-
-        
-
-
+                    return
+                    
 
 def window():
     app = QtWidgets.QApplication(sys.argv)
