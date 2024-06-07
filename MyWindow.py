@@ -50,6 +50,7 @@ class MyWindow(QWidget) :
         self.gridLayoutCardOptions = QtWidgets.QGridLayout(self.gridLayoutWidgetShape)
         self.gridLayoutCardOptions.setObjectName("gridLayoutCardOptions")
         self.gridLayoutWidgetShape.setObjectName("gridLayoutWidgetShape")
+        self.gridLayoutWidgetShape.setMinimumWidth(1100)
         self.frame_4 = QtWidgets.QFrame(self.gridLayoutWidgetShape)
         self.frame_4.setObjectName("frame_4")
         self.frame_4.setGeometry(QtCore.QRect(0, 0, 400, 200))
