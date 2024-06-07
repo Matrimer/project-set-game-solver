@@ -1,5 +1,5 @@
 from PyQt6 import QtWidgets
-from PyQt6.QtCore import Qt
+from PyQt6.QtCore import Qt, QPoint
 from PyQt6.QtWidgets import *
 from PyQt6.QtGui import *
 import random
@@ -428,7 +428,8 @@ class MyWindow(QWidget) :
         # Removes the clicked button from the grid
         button = self.sender()
         position = self.grid_layout.getItemPosition(self.grid_layout.indexOf(button))
-        print(position)
+        pixel_position = button.pos()
+        print(pixel_position)
 
         x = position[0]
         y = position[1]
@@ -533,9 +534,6 @@ class MyWindow(QWidget) :
         self.update()
 
     def showSets(self):
-        painter = QPainter(self)
-        setPen = QPen(Qt.GlobalColor.red)
-        painter.setPen(setPen)  # Set the pen color to red
 
 
         for set in self.solver.foundSets:
@@ -543,21 +541,39 @@ class MyWindow(QWidget) :
             card2 = set[1]
             card3 = set[2]
 
-            # center1 = QPoint(card1.location.x, card1.location.y)
-            print(card1)
-            print(card2)
-            print(card3)
-           
-            # center1 = 
-            # center2 = 
-            # center3 = 
+        pixel_position = self.pos()
+        print(pixel_position)
+        self.drawLines()
 
-            # Draw lines between the center points of the cards
-            # painter.drawLine(center1, center2)
-            # painter.drawLine(center2, center3)
-            # painter.drawLine(center3, center1)
-
+        painter = QPainter(self)
+        painter.setPen(QPen(Qt.GlobalColor.red))
+        painter.drawLine(10, 10, 300, 300)
         painter.end()
+
+        # center1 = QPoint(card1.location.x, card1.location.y)
+        print(card1)
+        print(card2)
+        print(card3)
+  
+
+    # def paintEvent(self, event):
+    #     self.drawLines()
+
+
+    # def drawLines(self):
+    #     painter = QPainter(self)
+    #     painter.setPen(QPen(Qt.GlobalColor.red))
+    #     painter.drawLine(10, 10, 300, 300)
+    #     # pixel_position = self.pos()
+    #     # painter.drawLine(pixel_position.x, pixel_position.y, 400, 400)
+
+
+    #     # painter.drawLine(center1, center2)
+    #     # painter.drawLine(center2, center3)
+    #     # painter.drawLine(center3, center1)
+
+    #     painter.end()
+
 
     def update(self):
         self.label.adjustSize()
