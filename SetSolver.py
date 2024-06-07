@@ -314,7 +314,7 @@ class MyWindow(QWidget) :
         # Add the card options widget to the main layout and set its position to 2x2
         grid_layout.addWidget(self.gridLayoutWidgetShape, 0, 15, 3, 4)
 
-        self.setLayout(grid_layout) # Set the layout for the main window
+        #self.setLayout(grid_layout) # Set the layout for the main window
         self.grid_layout = grid_layout # Create the grid layout
 
         self.solver = SetSolver()
