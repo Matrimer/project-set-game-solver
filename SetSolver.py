@@ -185,6 +185,7 @@ class MyWindow(QWidget) :
         grid_layout = QGridLayout()
         self.setLayout(grid_layout)
 
+        ### Grid of radioButtons for creating/editing cards ###
 
         self.gridLayoutWidgetShape = QtWidgets.QWidget(self)
         self.gridLayoutWidgetShape.setGeometry(QtCore.QRect(450, 10, 700, 231))
@@ -211,6 +212,7 @@ class MyWindow(QWidget) :
         newRadioButton("Oval", self.gridLayoutWidgetShape, self.horizontalLayoutCardOptions)
         newRadioButton("Diamond", self.gridLayoutWidgetShape, self.horizontalLayoutCardOptions)
 
+        # Color row
         self.gridLayoutCardOptions.addWidget(self.frame_4, 1, 0, 1, 1)
         self.frameCardOptions = QtWidgets.QFrame(self.gridLayoutWidgetShape)
         self.frameCardOptions.setObjectName("frameCardOptions")
@@ -234,6 +236,7 @@ class MyWindow(QWidget) :
         newRadioButton("Green", self.horizontalLayoutWidgetColor, self.horizontalLayoutColor)
         newRadioButton("Purple", self.horizontalLayoutWidgetColor, self.horizontalLayoutColor)
 
+        # Amount row
         self.gridLayoutCardOptions.addWidget(self.frameCardOptions, 0, 0, 1, 1)
         self.frame_6 = QtWidgets.QFrame(self.gridLayoutWidgetShape)
         self.frame_6.setObjectName("frame_6")
@@ -253,6 +256,7 @@ class MyWindow(QWidget) :
         newRadioButton("2", self.horizontalLayoutWidget_Color, self.horizontalLayout_4)
         newRadioButton("3", self.horizontalLayoutWidget_Color, self.horizontalLayout_4)
 
+        # Filling row
         self.gridLayoutCardOptions.addWidget(self.frame_6, 2, 0, 1, 1)
         self.frame_7 = QtWidgets.QFrame(self.gridLayoutWidgetShape)
         self.frame_7.setObjectName("frame_7")
@@ -564,8 +568,6 @@ class MyWindow(QWidget) :
         self.update()
 
     def showSets(self):
-
-
         for set in self.solver.foundSets:
             card1 = set[0]
             card2 = set[1]
