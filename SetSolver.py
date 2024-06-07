@@ -2,7 +2,6 @@ from PyQt6 import QtWidgets
 from PyQt6.QtCore import Qt, QPoint
 from PyQt6.QtWidgets import *
 from PyQt6.QtGui import *
-import random
 
 import sys
 
@@ -128,6 +127,11 @@ class SetSolver():
             for s in self.foundSetLocations:
                 if location in s:
                     self.foundSetLocations.remove(s)
+            
+           
+            for s in self.foundSets:
+                if card in s:
+                    self.foundSets.remove(s)
     
     def clearAll(self):
         # Clears the cardlist and the found sets
@@ -144,6 +148,10 @@ class MyWindow(QWidget) :
         self.setWindowIcon(QIcon("SetCards/RFW3.png"))
         self.initUI()
         self.selectedLocation = Location(0,0)
+        self.radioButtonRed.setChecked(True)
+        self.radioButtonWave.setChecked(True)
+        self.radioButtonFull.setChecked(True)
+        self.radioButton1.setChecked(True)
 
     def initUI(self):
 
@@ -404,6 +412,7 @@ class MyWindow(QWidget) :
         solver = SetSolver()
         solver.removeCard(self.selectedLocation)
 
+
         if solver.addCardAndSolve(card):
             self.showCard(card, self.grid_layout)
 
@@ -486,40 +495,11 @@ class MyWindow(QWidget) :
             pixmap = QPixmap.fromImage(image)
 
 
-            # self.gridLayoutCardOptions.addWidget(, 0,1,3,1)
-            # print(card.color)
-            # print(card.shape)
-            # print(card.filling)
-            # print(card.amount)
-            # print(card.location)
-
-
             self.NewCard.setPixmap(pixmap)
-
-            # self.gridLayoutCardOptions.addWidget(NewCard, 0, 1, 1, 1)
-
-              # Connect the clicked signal of the DeleteCardButton to the DeleteCard method
 
         else:
             print(f"Card not found at location {x},{y}")
-            self.DeleteCardButton.hide()  # Hide the DeleteCardButton if card is None\
-
-            self.radioButtonRed.setChecked(True)
-            self.radioButtonGreen.setChecked(False)
-            self.radioButtonPurple.setChecked(False)
-            
-            self.radioButtonWave.setChecked(True)
-            self.radioButtonOval.setChecked(False)
-            self.radioButtonDiamond.setChecked(False)
-        
-            self.radioButtonFull.setChecked(True)
-            self.radioButtonHalf.setChecked(False)
-            self.radioButtonEmpty.setChecked(False)
-        
-            self.radioButton1.setChecked(True)
-            self.radioButton2.setChecked(False)
-            self.radioButton3.setChecked(False)
-            
+            self.DeleteCardButton.hide()  # Hide the DeleteCardButton if card is None
 
         self.update()
 
@@ -529,6 +509,7 @@ class MyWindow(QWidget) :
         selectedLocation = self.selectedLocation
         print(selectedLocation)
         self.solver.removeCard(selectedLocation)
+        self.showSets()
         self.addImage(self.grid_layout, "SetCards/REE0.png", selectedLocation.x, selectedLocation.y, QColor("white"))
 
         print(f"Deleted card at location {selectedLocation}")
@@ -539,20 +520,28 @@ class MyWindow(QWidget) :
         for i in range(4):
             for j in range(3):
                 self.addImage(self.grid_layout, "SetCards/REE0.png", i, j, QColor("white"))
+        self.solver.foundSets.clear()
+        self.showSets()
         self.update()
 
     def showSets(self):
 
+        print(self.solver.foundSets)
         totalNumberOfSets = len(self.solver.foundSets)
         print(totalNumberOfSets)
 
+        scrollArea = QScrollArea()
+        scrollArea.setWidgetResizable(True)
+        scrollContent = QWidget()
+        scrollLayout = QGridLayout(scrollContent)
 
         for i in range(totalNumberOfSets):
             for j in range(3):
                 card = self.solver.foundSets[i][j]
-                self.showSetCards(card, self.gridLayoutCardOptions, i+6, j)
-   
+                self.showSetCards(card, scrollLayout, i, j)
 
+        scrollArea.setWidget(scrollContent)
+        self.gridLayoutCardOptions.addWidget(scrollArea, 6, 2, 1, 1)
 
 
     def update(self):
