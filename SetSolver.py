@@ -550,7 +550,7 @@ class MyWindow(QWidget) :
         for i in range(totalNumberOfSets):
             for j in range(3):
                 card = self.solver.foundSets[i][j]
-                self.showSetCards(card, self.gridLayoutCardOptions, i+5, j)
+                self.showSetCards(card, self.gridLayoutCardOptions, i+6, j)
    
 
 
