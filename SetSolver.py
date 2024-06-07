@@ -8,14 +8,18 @@ import sys
 
 from Designe_SetSolver import *
 
+# Set default dimensions of the window
 WINWIDTH = 1500
 WINHEIGHT = 400
 
-DIALOGWIDTH = 900
-DIALOGHEIGHT = 200
+# UNUSED:
+# Set default dimensions for dialog window
+#DIALOGWIDTH = 900
+#DIALOGHEIGHT = 200
 
 
-class CustomDialog(QDialog):
+# Dialog for notifying user if a duplicate card is being created
+class duplicateDialog(QDialog):
     def __init__(self):
         super().__init__()
 
@@ -33,12 +37,18 @@ class CustomDialog(QDialog):
         self.layout.addWidget(self.buttonBox)
         self.setLayout(self.layout)
 
+# Location class:
+# lets you store and print locations,
+# and check whether two locations are equal.
 class Location():
+    # Create a new location
     def __init__(self,x,y):
         self.x = x
         self.y = y
+    # Give location as string
     def __str__(self):
         return f"{self.x},{self.y}"
+    # Check if two locations are equal
     def __eq__(self, other):
         if isinstance(other, self.__class__):
             return (self.x == other.x and
@@ -46,14 +56,19 @@ class Location():
         else:
             return False
 
+# Card class:
+# Lets you create cards,
+# and lets you check whether two cards are equal (ignoring locations).
+# Each card has a color, shape, filling, amount and location.
 class Card():
+    # Create a new card
     def __init__(self,color,shape,filling,amount,location):
         self.color = color
         self.shape = shape
         self.filling = filling
         self.amount = amount
         self.location = location
-
+    # Check if two cards are equal. Checks all attributes except locations
     def __eq__(self, other):
         if isinstance(other, self.__class__):
             return (self.color == other.color and
@@ -64,14 +79,14 @@ class Card():
             return False
 
 
-
+# SetSolver class:
 class SetSolver():
     cardList = []
     foundSets = []
     def __init__(self):
         pass
 
-#go through the card list and see if newCard is a duplicate of any card in the card list
+    # go through the card list and see if newCard is a duplicate of any card in the card list
     def Duplicates(self, newCard):
         for card in self.cardList:
             if newCard == card:
@@ -79,12 +94,13 @@ class SetSolver():
         return False
 
 
+    # Check for sets with the new card and the cardlist and add the card to the list
+    # Also checks whether the card is a duplicate (the same card allready exists)
     def addCardAndSolve(self,newCard):
         if(self.Duplicates(newCard)):
-            # Checks for sets with the new card and the cardlist then adds the card to the list
             print("Duplicate card")
 
-            dlg = CustomDialog()
+            dlg = duplicateDialog()
             if not (dlg.exec()):
                 print("Duplicate canceled")
                 return False
@@ -96,42 +112,42 @@ class SetSolver():
 
         self.cardList.append(newCard)
         return True
-            
-        
-        
+
+
+
 
     def isSet(self,one, two, three):
         # Loops over the fields/atributes of one whitch is an instance of a card
         # Not clean
         for attribute, value in one.__dict__.items():
-            # compares cards bassed on there values at the atributes
+            # compares cards based on the their atributes
             if getattr(one, attribute) != getattr(two, attribute):
                 if getattr(three, attribute) in (getattr(one, attribute) , getattr(two, attribute)):
                     return False
             elif getattr(one, attribute) != getattr(three, attribute):
                 return False
         return True
+    # Return a card from the cardlist based on the location
     def getCard(self,location):
-        # Returns a card from the cardlist based on the location
         for card in self.cardList:
             if card.location == location:
                 return card
         return None
+    # Removes a card from the cardlist based on the location
     def removeCard(self,location):
-        # Removes a card from the cardlist based on the location
         card = self.getCard(location)
         if card is not None:
             self.cardList.remove(card)
             for s in self.foundSets:
                 if location in s:
                     self.foundSets.remove(s)
-    
+
+    # Clear the cardlist and the found sets
     def clearAll(self):
-        # Clears the cardlist and the found sets
         self.cardList.clear()
         self.foundSets.clear()
 
-        
+
 
 class MyWindow(QWidget) :
     def __init__(self, *args, **kwargs):
@@ -143,6 +159,9 @@ class MyWindow(QWidget) :
 
     def initUI(self):
 
+        # Create a new radioButton by NAME, gridAttribute and horizontalAttribute
+        # Called radioButtonNAME,
+        # and place it according to gridAttribute and horizontalAttribute
         def newRadioButton(name, gridAttribute, horizontalAttribute) :
             radioButtonName = ("radioButton" + name)
             radioButton = QtWidgets.QRadioButton(gridAttribute)
@@ -152,16 +171,16 @@ class MyWindow(QWidget) :
             radioButton.setText(name)
             radioButton.clicked.connect(self.UpdateCard)
 
+            # Rename radioButton to value of RadioButtonName
             setattr(self, radioButtonName, radioButton)
 
             horizontalAttribute.addWidget(radioButton)
 
 
-        grid_layout = QGridLayout()
 
         # Set the layout for the main window
+        grid_layout = QGridLayout()
         self.setLayout(grid_layout)
-
 
 
         self.gridLayoutWidgetShape = QtWidgets.QWidget(self)
@@ -184,6 +203,7 @@ class MyWindow(QWidget) :
         self.horizontalLayoutCardOptions.addWidget(self.labelShape)
 
 
+        # Create radioButtons for setting the shape
         newRadioButton("Wave", self.gridLayoutWidgetShape, self.horizontalLayoutCardOptions)
         newRadioButton("Oval", self.gridLayoutWidgetShape, self.horizontalLayoutCardOptions)
         newRadioButton("Diamond", self.gridLayoutWidgetShape, self.horizontalLayoutCardOptions)
@@ -206,6 +226,7 @@ class MyWindow(QWidget) :
         self.labelColor.setText("Color:")
         self.horizontalLayoutColor.addWidget(self.labelColor)
 
+        # Create radioButtons for setting the color
         newRadioButton("Red", self.horizontalLayoutWidgetColor, self.horizontalLayoutColor)
         newRadioButton("Green", self.horizontalLayoutWidgetColor, self.horizontalLayoutColor)
         newRadioButton("Purple", self.horizontalLayoutWidgetColor, self.horizontalLayoutColor)
@@ -224,6 +245,7 @@ class MyWindow(QWidget) :
         self.labelAmount.setText("Amount:")
         self.horizontalLayout_4.addWidget(self.labelAmount)
 
+        # Create radioButtons for setting the amount
         newRadioButton("1", self.horizontalLayoutWidget_Color, self.horizontalLayout_4)
         newRadioButton("2", self.horizontalLayoutWidget_Color, self.horizontalLayout_4)
         newRadioButton("3", self.horizontalLayoutWidget_Color, self.horizontalLayout_4)
@@ -242,6 +264,7 @@ class MyWindow(QWidget) :
         self.labelFilling.setText("Filling:")
         self.horizontalLayout_5.addWidget(self.labelFilling)
 
+        # Create radioButtons for setting the filling
         newRadioButton("Full", self.horizontalLayoutWidget_5, self.horizontalLayout_5)
         newRadioButton("Half", self.horizontalLayoutWidget_5, self.horizontalLayout_5)
         newRadioButton("Empty", self.horizontalLayoutWidget_5, self.horizontalLayout_5)
@@ -256,7 +279,8 @@ class MyWindow(QWidget) :
         self.AddCardButton.setObjectName("AddCardButton")
         self.AddCardButton.setText("Add Card")
         self.gridLayoutCardOptions.addWidget(self.AddCardButton, 1, 1, 3, 1)
-        self.AddCardButton.clicked.connect(self.ChangeCard)  # Connect the clicked signal of the AddCardButton to the ChangeCard method
+        # Connect the clicked signal of the AddCardButton to the ChangeCard method
+        self.AddCardButton.clicked.connect(self.ChangeCard)
 
         self.DeleteCardButton = QtWidgets.QPushButton(self.gridLayoutWidgetShape)
         self.DeleteCardButton.setObjectName("DeleteCardButton")
@@ -272,12 +296,11 @@ class MyWindow(QWidget) :
 
 
 
-        grid_layout.addWidget(self.gridLayoutWidgetShape, 0, 15, 3, 4)  # Add the card options widget to the main layout and set its position to 2x2
+        # Add the card options widget to the main layout and set its position to 2x2
+        grid_layout.addWidget(self.gridLayoutWidgetShape, 0, 15, 3, 4)
 
-        self.setLayout(grid_layout)  # Set the layout for the main window
-        self.grid_layout = grid_layout
-        # Create the grid layout
-
+        self.setLayout(grid_layout) # Set the layout for the main window
+        self.grid_layout = grid_layout # Create the grid layout
 
         self.solver = SetSolver()
         self.reset()
@@ -301,8 +324,8 @@ class MyWindow(QWidget) :
                     #     break
         #Todo change name from set to something better because name set is python name
 
+    # Update the card in the card options widget
     def UpdateCard(self):
-        # Updates the card in the card options widget
         color = ""
         shape = ""
         filling = ""
@@ -313,7 +336,7 @@ class MyWindow(QWidget) :
         elif self.radioButtonGreen.isChecked():
             color = "Green"
         elif self.radioButtonPurple.isChecked():
-            color = "Purple" 
+            color = "Purple"
 
         if self.radioButtonWave.isChecked():
             shape = "W"
@@ -452,14 +475,14 @@ class MyWindow(QWidget) :
                 self.radioButtonOval.setChecked(True)
             elif card.shape == "D":
                 self.radioButtonDiamond.setChecked(True)
-            
+
             if card.filling == "F":
                 self.radioButtonFull.setChecked(True)
             elif card.filling == "L":
                 self.radioButtonHalf.setChecked(True)
             elif card.filling == "E":
                 self.radioButtonEmpty.setChecked(True)
-            
+
             if card.amount == "1":
                 self.radioButton1.setChecked(True)
             elif card.amount == "2":
@@ -499,19 +522,19 @@ class MyWindow(QWidget) :
             self.radioButtonRed.setChecked(True)
             self.radioButtonGreen.setChecked(False)
             self.radioButtonPurple.setChecked(False)
-            
+
             self.radioButtonWave.setChecked(True)
             self.radioButtonOval.setChecked(False)
             self.radioButtonDiamond.setChecked(False)
-        
+
             self.radioButtonFull.setChecked(True)
             self.radioButtonHalf.setChecked(False)
             self.radioButtonEmpty.setChecked(False)
-        
+
             self.radioButton1.setChecked(True)
             self.radioButton2.setChecked(False)
             self.radioButton3.setChecked(False)
-            
+
 
         self.update()
 
@@ -524,7 +547,7 @@ class MyWindow(QWidget) :
         self.addImage(self.grid_layout, "SetCards/REE0.png", selectedLocation.x, selectedLocation.y, QColor("white"))
 
         print(f"Deleted card at location {selectedLocation}")
-    
+
     def wipeDeck(self):
         # Clears the deck
         self.solver.clearAll()
@@ -554,25 +577,25 @@ class MyWindow(QWidget) :
         print(card1)
         print(card2)
         print(card3)
-  
-
-    # def paintEvent(self, event):
-    #     self.drawLines()
 
 
-    # def drawLines(self):
-    #     painter = QPainter(self)
-    #     painter.setPen(QPen(Qt.GlobalColor.red))
-    #     painter.drawLine(10, 10, 300, 300)
-    #     # pixel_position = self.pos()
-    #     # painter.drawLine(pixel_position.x, pixel_position.y, 400, 400)
+    def paintEvent(self, event):
+        self.drawLines()
 
 
-    #     # painter.drawLine(center1, center2)
-    #     # painter.drawLine(center2, center3)
-    #     # painter.drawLine(center3, center1)
+    def drawLines(self):
+        painter = QPainter(self)
+        painter.setPen(QPen(Qt.GlobalColor.red))
+        painter.drawLine(10, 10, 300, 300)
+        # pixel_position = self.pos()
+        # painter.drawLine(pixel_position.x, pixel_position.y, 400, 400)
 
-    #     painter.end()
+
+        # painter.drawLine(center1, center2)
+        # painter.drawLine(center2, center3)
+        # painter.drawLine(center3, center1)
+
+        painter.end()
 
 
     def update(self):
