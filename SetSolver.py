@@ -143,6 +143,7 @@ class MyWindow(QWidget) :
         self.setWindowTitle("Set Solver")
         self.setWindowIcon(QIcon("SetCards/RFW3.png"))
         self.initUI()
+        self.selectedLocation = Location(0,0)
 
     def initUI(self):
 
@@ -409,6 +410,7 @@ class MyWindow(QWidget) :
         for set in self.solver.foundSetLocations:
             print(f"{set[0]} and {set[1]} and {set[2]}")
             MyWindow.showSets(self)
+        self.firstEmptyCardSlot()
 
     def addImage(self, grid_layout, filelocation,x,y,color):
         # Creates and shows an image on the grid at x,y of file at filelocation with color color
@@ -555,8 +557,17 @@ class MyWindow(QWidget) :
 
     def update(self):
         self.label.adjustSize()
-
-
+    
+    def firstEmptyCardSlot(self):
+        for x in range(4):
+            for y in range(3):
+                # print(self.solver.getCard(Location(x,y)))
+                # print(Location(x,y))
+                print(self.selectedLocation)
+                if(self.solver.getCard(Location(x,y)) is None):
+                    self.selectedLocation = Location(x,y)
+                    return
+                    
 
 def window():
     app = QtWidgets.QApplication(sys.argv)
