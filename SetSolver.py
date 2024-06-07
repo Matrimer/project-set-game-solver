@@ -67,6 +67,7 @@ class Card():
 
 class SetSolver():
     cardList = []
+    foundSetLocations = []
     foundSets = []
     def __init__(self):
         pass
@@ -92,7 +93,9 @@ class SetSolver():
         for i,firstCard in enumerate(self.cardList):
             for secondCard in self.cardList[i+1:]:
                 if self.isSet(firstCard,secondCard,newCard):
-                    self.foundSets.append([newCard.location,firstCard.location,secondCard.location])
+                    self.foundSetLocations.append([newCard.location,firstCard.location,secondCard.location])
+                    self.foundSets.append([newCard,firstCard,secondCard])
+                    
 
         self.cardList.append(newCard)
         return True
@@ -122,14 +125,14 @@ class SetSolver():
         card = self.getCard(location)
         if card is not None:
             self.cardList.remove(card)
-            for s in self.foundSets:
+            for s in self.foundSetLocations:
                 if location in s:
-                    self.foundSets.remove(s)
+                    self.foundSetLocations.remove(s)
     
     def clearAll(self):
         # Clears the cardlist and the found sets
         self.cardList.clear()
-        self.foundSets.clear()
+        self.foundSetLocations.clear()
 
         
 
@@ -250,24 +253,24 @@ class MyWindow(QWidget) :
         self.NewCard = QtWidgets.QLabel(self.gridLayoutWidgetShape)
         self.NewCard.setObjectName("NewCard")
         self.NewCard.setText("Image of user generated card")
-        self.gridLayoutCardOptions.addWidget(self.NewCard, 0, 1, 3, 1)
+        self.gridLayoutCardOptions.addWidget(self.NewCard, 0, 2, 3, 1, alignment=Qt.AlignmentFlag.AlignCenter)
 
         self.AddCardButton = QtWidgets.QPushButton(self.gridLayoutWidgetShape)
         self.AddCardButton.setObjectName("AddCardButton")
         self.AddCardButton.setText("Add Card")
-        self.gridLayoutCardOptions.addWidget(self.AddCardButton, 1, 1, 3, 1)
+        self.gridLayoutCardOptions.addWidget(self.AddCardButton, 1, 2, 3, 1)
         self.AddCardButton.clicked.connect(self.ChangeCard)  # Connect the clicked signal of the AddCardButton to the ChangeCard method
 
         self.DeleteCardButton = QtWidgets.QPushButton(self.gridLayoutWidgetShape)
         self.DeleteCardButton.setObjectName("DeleteCardButton")
         self.DeleteCardButton.setText("Delete Card")
-        self.gridLayoutCardOptions.addWidget(self.DeleteCardButton, 2, 1, 3, 1)
+        self.gridLayoutCardOptions.addWidget(self.DeleteCardButton, 2, 2, 3, 1)
         self.DeleteCardButton.clicked.connect(self.DeleteCard)
 
         self.WipeDeckButton = QtWidgets.QPushButton(self.gridLayoutWidgetShape)
         self.WipeDeckButton.setObjectName("WipeDeckButton")
         self.WipeDeckButton.setText("Wipe Deck")
-        self.gridLayoutCardOptions.addWidget(self.WipeDeckButton, 3, 1, 3, 1)
+        self.gridLayoutCardOptions.addWidget(self.WipeDeckButton, 3, 2, 3, 1)
         self.WipeDeckButton.clicked.connect(self.wipeDeck)
 
 
@@ -356,6 +359,9 @@ class MyWindow(QWidget) :
     def showCard(self, card, grid_layout):
         self.addImage(grid_layout, f"SetCards/R{card.filling}{card.shape}{card.amount}.png", card.location.x, card.location.y, QColor(card.color))
 
+    def showSetCards(self, card, grid_layout, locationX, locationY):
+        self.addImage(grid_layout, f"SetCards/R{card.filling}{card.shape}{card.amount}.png", locationX, locationY, QColor(card.color))
+
 
 
     def ChangeCard(self):
@@ -400,7 +406,7 @@ class MyWindow(QWidget) :
         if solver.addCardAndSolve(card):
             self.showCard(card, self.grid_layout)
 
-        for set in self.solver.foundSets:
+        for set in self.solver.foundSetLocations:
             print(f"{set[0]} and {set[1]} and {set[2]}")
             MyWindow.showSets(self)
 
@@ -535,44 +541,16 @@ class MyWindow(QWidget) :
 
     def showSets(self):
 
-
-        for set in self.solver.foundSets:
-            card1 = set[0]
-            card2 = set[1]
-            card3 = set[2]
-
-        pixel_position = self.pos()
-        print(pixel_position)
-        self.drawLines()
-
-        painter = QPainter(self)
-        painter.setPen(QPen(Qt.GlobalColor.red))
-        painter.drawLine(10, 10, 300, 300)
-        painter.end()
-
-        # center1 = QPoint(card1.location.x, card1.location.y)
-        print(card1)
-        print(card2)
-        print(card3)
-  
-
-    # def paintEvent(self, event):
-    #     self.drawLines()
+        totalNumberOfSets = len(self.solver.foundSets)
+        print(totalNumberOfSets)
 
 
-    # def drawLines(self):
-    #     painter = QPainter(self)
-    #     painter.setPen(QPen(Qt.GlobalColor.red))
-    #     painter.drawLine(10, 10, 300, 300)
-    #     # pixel_position = self.pos()
-    #     # painter.drawLine(pixel_position.x, pixel_position.y, 400, 400)
+        for i in range(totalNumberOfSets):
+            for j in range(3):
+                card = self.solver.foundSets[i][j]
+                self.showSetCards(card, self.gridLayoutCardOptions, i+5, j)
+   
 
-
-    #     # painter.drawLine(center1, center2)
-    #     # painter.drawLine(center2, center3)
-    #     # painter.drawLine(center3, center1)
-
-    #     painter.end()
 
 
     def update(self):
